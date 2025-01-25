@@ -1,0 +1,76 @@
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <sstream>
+#include <ctime>
+#include <string>
+
+int main() {
+    // Tworzenie okna o wymiarach 512x512 pikseli
+    sf::RenderWindow window(sf::VideoMode(512, 512), "SFML Tutorial", sf::Style::Close | sf::Style::Resize);
+    sf::RectangleShape player(sf::Vector2f(100.0f, 150.0f));
+    player.setPosition(sf::Vector2f(200.0f, 200.0f));
+    sf::Texture playerTexture;
+    playerTexture.loadFromFile("textures/turtle.jpg");
+    player.setTexture(&playerTexture);
+
+    sf::Vector2u texture_size = playerTexture.getSize();
+    texture_size.x = texture_size.x / 3;
+    texture_size.y = texture_size.y / 2;
+
+    player.setTextureRect(sf::IntRect(texture_size.x * 1, texture_size.y * 0, texture_size.x, texture_size.y));
+
+
+    sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(512.0f, 512.0f));
+
+    // Główna pętla aplikacji
+    while (window.isOpen()) {
+        sf::Event event; // Prawidłowe zadeklarowanie obiektu sf::Event
+
+        // Obsługa zdarzeń
+        while (window.pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+
+                case sf::Event::Resized:
+                    std::cout << "Resized: : " << event.size.width << " x " << event.size.height << std::endl;
+                    break;
+
+                case sf::Event::TextEntered:
+                    std::cout << "TextEntered: " << static_cast<char>(event.text.unicode) << std::endl;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+        //     player.move(-0.1f, 0.0f);
+        // }
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+        //     player.move(0.0f, 0.1f);
+        // }
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+        //     player.move(0.1f, 0.0f);
+        // }
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+        //     player.move(0.0f, -0.1f);
+        // }
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            player.setPosition(sf::Vector2f(mousePos.x, mousePos.y));
+        }
+
+        // Rysowanie
+        window.setView(view);
+        window.clear();
+        window.draw(player);
+        window.display();
+    }
+
+
+    return 0;
+}

@@ -1,0 +1,5 @@
+/snap/clion/314/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/314/bin/ninja/linux/x64/ninja -G Ninja -S /home/michal/Documents/Programowanie/3D_rendering -B /home/michal/Documents/Programowanie/3D_rendering/cmake-build-debug
+-- Found SFML 2.5.1 in /usr/lib/x86_64-linux-gnu/cmake/SFML
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/michal/Documents/Programowanie/3D_rendering/cmake-build-debug

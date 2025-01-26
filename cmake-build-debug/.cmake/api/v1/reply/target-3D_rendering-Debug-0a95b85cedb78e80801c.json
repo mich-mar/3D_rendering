@@ -27,13 +27,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 30,
+				"line" : 39,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 36,
+				"line" : 45,
 				"parent" : 0
 			},
 			{
@@ -58,6 +58,12 @@
 				"command" : 3,
 				"file" : 0,
 				"line" : 27,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 28,
 				"parent" : 0
 			}
 		]
@@ -100,6 +106,10 @@
 				{
 					"backtrace" : 6,
 					"path" : "/home/michal/Documents/Programowanie/3D_rendering/lib"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/michal/Documents/Programowanie/3D_rendering/obj"
 				}
 			],
 			"language" : "CXX",

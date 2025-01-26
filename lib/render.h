@@ -5,9 +5,9 @@
 #include "math.h"
 #include "matrix4x4.h"
 #include "SFMLhandler.h"
+#include <algorithm>
 
 class render {
-    mesh meshCube;
     mesh meshObject;
     matrix4x4 projection;
     float windowHeight = 1000, windowWidth = 1000;
@@ -18,15 +18,15 @@ class render {
 
     SFMLhandler sfml;
 
-    float fNear = 1.0f;
-    float fFar = 100.0f;
+    float fNear = 0.1f;
+    float fFar = 1000.0f;
     float fFov = 90.0f;
     float fAspectRatio;
     float fFovRad;
 
 public:
-    render();
-    render(float windowHeight, float windowWidth);
+    render(float windowHeight, float windowWidth, std::string filename);
+
     void render2Dview();
 };
 

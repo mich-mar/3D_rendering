@@ -24,6 +24,8 @@ struct vec3 {
 struct triangle {
     vec3 p[3];
 
+    int r, g, b;
+
     triangle& operator=(const triangle& other) = default; // Allow assignment
 };
 

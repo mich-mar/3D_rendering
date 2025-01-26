@@ -25,6 +25,15 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 
 # Dodanie katalogu z plikami nagłówkowymi
 include_directories(lib/)
+include_directories(obj/)
+
+# Zbieranie wszystkich plików .obj z katalogu obj/
+file(GLOB_RECURSE OBJ_FILES obj/*.obj)
+
+# Kopiowanie plików .obj do katalogu binarnego
+foreach(OBJ_FILE ${OBJ_FILES})
+    configure_file(${OBJ_FILE} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+endforeach()
 
 # Tworzenie pliku wykonywalnego
 add_executable(${PROJECT_NAME} ${SOURCES})

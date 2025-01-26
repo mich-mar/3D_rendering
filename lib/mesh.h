@@ -16,11 +16,12 @@ struct mesh {
 public:
     mesh() = default;
 
-    // void addTriangle(const triangle& tri);
+    void addTriangle(const triangle& tri);
     // void applyTransform(const matrix4x4& transform);
-    // bool loadObj(const std::string& filename);
-    // void saveObj(const std::string& filename) const;
+    bool loadObj(const std::string& filename);
+    void saveObj(const std::string& filename) const;
     void generateCube();
+    void printTriangles() const;
     // void clear();
     // size_t getTriangleCount() const;
     // const std::vector<triangle>& getTriangles() const;

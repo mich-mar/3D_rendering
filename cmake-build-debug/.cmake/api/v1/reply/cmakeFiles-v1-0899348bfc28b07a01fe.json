@@ -127,6 +127,12 @@
 			"path" : "/snap/clion/314/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake"
 		},
 		{
+			"path" : "obj/VideoShip.obj"
+		},
+		{
+			"path" : "obj/teapot.obj"
+		},
+		{
 			"isExternal" : true,
 			"path" : "/usr/lib/x86_64-linux-gnu/cmake/SFML/SFMLConfigVersion.cmake"
 		},

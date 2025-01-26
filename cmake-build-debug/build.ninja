@@ -63,15 +63,15 @@ build CMakeFiles/MySFMLProject.dir/src/main.cpp.o: CXX_COMPILER__MySFMLProject_u
   OBJECT_DIR = CMakeFiles/MySFMLProject.dir
   OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
 
-build CMakeFiles/MySFMLProject.dir/src/math.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/math.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/math.cpp.o.d
+build CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/matrix4x4.cpp || cmake_object_order_depends_target_MySFMLProject
+  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
   OBJECT_DIR = CMakeFiles/MySFMLProject.dir
   OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
 
-build CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/matrix4x4.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o.d
+build CMakeFiles/MySFMLProject.dir/src/mesh.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/mesh.cpp || cmake_object_order_depends_target_MySFMLProject
+  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/mesh.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
   OBJECT_DIR = CMakeFiles/MySFMLProject.dir
@@ -99,7 +99,7 @@ build CMakeFiles/MySFMLProject.dir/src/vec4.cpp.o: CXX_COMPILER__MySFMLProject_u
 #############################################
 # Link the executable MySFMLProject
 
-build MySFMLProject: CXX_EXECUTABLE_LINKER__MySFMLProject_Debug CMakeFiles/MySFMLProject.dir/src/SFMLhandler.cpp.o CMakeFiles/MySFMLProject.dir/src/main.cpp.o CMakeFiles/MySFMLProject.dir/src/math.cpp.o CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o CMakeFiles/MySFMLProject.dir/src/render.cpp.o CMakeFiles/MySFMLProject.dir/src/vec4.cpp.o | /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
+build MySFMLProject: CXX_EXECUTABLE_LINKER__MySFMLProject_Debug CMakeFiles/MySFMLProject.dir/src/SFMLhandler.cpp.o CMakeFiles/MySFMLProject.dir/src/main.cpp.o CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o CMakeFiles/MySFMLProject.dir/src/mesh.cpp.o CMakeFiles/MySFMLProject.dir/src/render.cpp.o CMakeFiles/MySFMLProject.dir/src/vec4.cpp.o | /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
   FLAGS = -g
   LINK_LIBRARIES = /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
   OBJECT_DIR = CMakeFiles/MySFMLProject.dir

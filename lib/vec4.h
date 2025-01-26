@@ -7,6 +7,23 @@
 
 #include <cmath> // do funkcji sqrt
 
+struct vec3 {
+    float x = 0;
+    float y = 0;
+    float z = 0;
+
+    vec3& operator=(const vec3& other) = default; // Allow assignment
+};
+
+/**
+ * @class triangle
+ * @brief Represents a triangle with three vertices in 3D space.
+ */
+struct triangle {
+    vec3 p[3];
+
+    triangle& operator=(const triangle& other) = default; // Allow assignment
+};
 
 /**
  * @class vec4

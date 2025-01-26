@@ -1,38 +1,12 @@
 #include "SFMLhandler.h"
 
 // Constructor
-SFMLhandler::SFMLhandler(int width, int height, const std::string& title)
-    : window(sf::VideoMode(width, height), title) {}
-
-// Draws an outline of a triangle
-void SFMLhandler::drawTriangle(const triangle& tri, const RGB& color, float thickness) {
-    sf::VertexArray lines(sf::LineStrip, 4);
-
-    for (int i = 0; i < 3; i++) {
-        lines[i].position = convertToScreenCoordinates(tri.p[i]);
-        lines[i].color = convertToSFMLColor(color);
-    }
-    lines[3].position = lines[0].position; // Close the triangle
-    lines[3].color = lines[0].color;
-
-    window.draw(lines);
-}
-
-// Draws a filled triangle
-void SFMLhandler::drawFilledTriangle(const triangle& tri, const RGB& color) {
-    sf::ConvexShape shape;
-    shape.setPointCount(3);
-    shape.setFillColor(convertToSFMLColor(color));
-
-    for (int i = 0; i < 3; i++) {
-        shape.setPoint(i, convertToScreenCoordinates(tri.p[i]));
-    }
-
-    window.draw(shape);
-}
+SFMLhandler::SFMLhandler(float width, float height, const std::string& title)
+    : windowHeight(height), windowWidth(width), window(sf::VideoMode(width, height), title) {}
 
 // Draws an entire mesh (outline or filled)
 void SFMLhandler::drawMesh(const mesh& m, const RGB& color, bool fill) {
+
 }
 
 // Clears the screen with a specified background color
@@ -72,65 +46,58 @@ void SFMLhandler::run(const mesh& m) {
     }
 }
 
-void SFMLhandler::drawPolygon(const std::vector<sf::Vector2f>& points, RGB color, float thickness) {
-    if (points.size() < 2) {
-        return; // Need at least two points to draw
-    }
-
-    sf::Color sfColor(color.r, color.g, color.b);
-
-    for (size_t i = 0; i < points.size(); ++i) {
-        // Get the current point and the next point (wrapping around for the last segment)
-        sf::Vector2f start = points[i];
-        sf::Vector2f end = points[(i + 1) % points.size()];
-
-        // Compute the direction vector and its perpendicular
-        sf::Vector2f direction = end - start;
-        float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-        sf::Vector2f unitDirection = direction / length;
-        sf::Vector2f perpendicular(-unitDirection.y, unitDirection.x);
-
-        // Compute the four corners of the thick line
-        sf::Vector2f offset = perpendicular * (thickness / 2.0f);
-        sf::Vector2f p1 = start + offset;
-        sf::Vector2f p2 = start - offset;
-        sf::Vector2f p3 = end - offset;
-        sf::Vector2f p4 = end + offset;
-
-        // Create a quad for this segment
-        sf::Vertex quad[] = {
-            sf::Vertex(p1, sfColor),
-            sf::Vertex(p2, sfColor),
-            sf::Vertex(p3, sfColor),
-            sf::Vertex(p4, sfColor)
-        };
-
-        // Draw the quad
-        window.draw(quad, 4, sf::Quads);
-    }
-}
-
-
-void SFMLhandler::drawFilledPolygon(const std::vector<sf::Vector2f>& points, RGB color) {
-    sf::ConvexShape polygon;
-    polygon.setPointCount(points.size());
-    polygon.setFillColor(sf::Color(color.r, color.g, color.b));
-
-    for (size_t i = 0; i < points.size(); ++i) {
-        polygon.setPoint(i, points[i]);
-    }
-
-    window.draw(polygon);
-}
-
 bool SFMLhandler::handleEvents() {
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             window.close();
+            exit(0);
             return false; // Signal to stop the main loop
         }
     }
     return true; // Continue running
 }
+
+void SFMLhandler::drawTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB& color, float thickness) {
+    // Helper function to create a line with thickness
+    auto createThickLine = [&](float x1, float y1, float x2, float y2, float thickness, const sf::Color& sfColor) {
+        sf::Vector2f direction(x2 - x1, y2 - y1);
+        float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+        direction /= length;
+
+        sf::Vector2f normal(-direction.y, direction.x);
+
+        sf::Vector2f offset = normal * thickness / 2.f;
+
+        sf::ConvexShape line;
+        line.setPointCount(4);
+        line.setPoint(0, sf::Vector2f(x1, y1) + offset);
+        line.setPoint(1, sf::Vector2f(x2, y2) + offset);
+        line.setPoint(2, sf::Vector2f(x2, y2) - offset);
+        line.setPoint(3, sf::Vector2f(x1, y1) - offset);
+        line.setFillColor(sfColor);
+
+        return line;
+    };
+
+    // Convert RGB to sf::Color
+    sf::Color sfColor(color.r, color.g, color.b);
+
+    // Draw the three edges of the triangle
+    sf::ConvexShape edge1 = createThickLine(p1_x, p1_y, p2_x, p2_y, thickness, sfColor);
+    sf::ConvexShape edge2 = createThickLine(p2_x, p2_y, p3_x, p3_y, thickness, sfColor);
+    sf::ConvexShape edge3 = createThickLine(p3_x, p3_y, p1_x, p1_y, thickness, sfColor);
+
+    window.draw(edge1);
+    window.draw(edge2);
+    window.draw(edge3);
+}
+
+sf::Int32 SFMLhandler::getElapsedTime() {
+    elapsed = clock.restart();
+    return elapsed.asMilliseconds(); // Zwróci liczbę milisekund jako sf::Int32
+}
+
+
+
 

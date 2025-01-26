@@ -9,10 +9,9 @@
     * @details Identity matrix has 1's on the diagonal and 0's elsewhere.
     */
 matrix4x4::matrix4x4() {
-    // Initialize as identity matrix
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
-            m[i][j] = (i == j) ? 1.0f : 0.0f;
+            m[i][j] = 0.0f;
         }
     }
 }
@@ -60,16 +59,15 @@ matrix4x4 matrix4x4::genScale(float x, float y, float z) {
     * @param angle Rotation angle in degrees.
     * @return A matrix4x4 object representing the rotation.
     */
-matrix4x4 matrix4x4::genRotationX(float angle) {
+matrix4x4 genRotationX(float angleRad) {
     matrix4x4 result;
-    float rad = angle * M_PI / 180.0f; // Convert to radians
-    float cosA = std::cos(rad);
-    float sinA = std::sin(rad);
 
-    result.m[1][1] = cosA;
-    result.m[1][2] = -sinA;
-    result.m[2][1] = sinA;
-    result.m[2][2] = cosA;
+    result.m[0][0] = 1;
+    result.m[1][1] = cosf(angleRad);
+    result.m[1][2] = sinf(angleRad);
+    result.m[2][1] = -sinf(angleRad);
+    result.m[2][2] = cosf(angleRad);
+    result.m[3][3] = 1;
 
     return result;
 }
@@ -79,11 +77,11 @@ matrix4x4 matrix4x4::genRotationX(float angle) {
     * @param angle Rotation angle in degrees.
     * @return A matrix4x4 object representing the rotation.
     */
-matrix4x4 matrix4x4::genRotationY(float angle) {
+matrix4x4 genRotationY(float angleRad) {
     matrix4x4 result;
-    float rad = angle * M_PI / 180.0f; // Convert to radians
-    float cosA = std::cos(rad);
-    float sinA = std::sin(rad);
+
+    float cosA = std::cos(angleRad);
+    float sinA = std::sin(angleRad);
 
     result.m[0][0] = cosA;
     result.m[0][2] = sinA;
@@ -98,16 +96,15 @@ matrix4x4 matrix4x4::genRotationY(float angle) {
      * @param angle Rotation angle in degrees.
      * @return A matrix4x4 object representing the rotation.
      */
-matrix4x4 matrix4x4::genRotationZ(float angle) {
+matrix4x4 genRotationZ(float angleRad) {
     matrix4x4 result;
-    float rad = angle * M_PI / 180.0f; // Convert to radians
-    float cosA = std::cos(rad);
-    float sinA = std::sin(rad);
 
-    result.m[0][0] = cosA;
-    result.m[0][1] = -sinA;
-    result.m[1][0] = sinA;
-    result.m[1][1] = cosA;
+    result.m[0][0] = cosf(angleRad);
+    result.m[0][1] = sinf(angleRad);
+    result.m[1][0] = -sinf(angleRad);
+    result.m[1][1] = cosf(angleRad);
+    result.m[2][2] = 1;
+    result.m[3][3] = 1;
 
     return result;
 }
@@ -144,22 +141,59 @@ matrix4x4 matrix4x4::transpose() const {
     return result;
 }
 
-/**
-    * @brief Provides access to a specific row of the matrix.
-    * @param index The index of the row (0-3).
-    * @return A pointer to the array representing the row.
-    * @note No bounds checking is performed.
-*/
-float *matrix4x4::operator[](int index) {
-    return m[index];
+matrix4x4 genProjection(float fNear, float fFar, float fAspectRatio, float fFovRad) {
+    matrix4x4 matProj;
+
+    matProj.m[0][0] = fAspectRatio * fFovRad;
+    matProj.m[1][1] = fFovRad;
+    matProj.m[2][2] = fFar / (fFar - fNear);
+    matProj.m[3][2] = (-fFar * fNear) / (fFar - fNear);
+    matProj.m[2][3] = 1.0f;
+    matProj.m[3][3] = 0.0f;
+
+    return matProj;
 }
 
 /**
-     * @brief Provides read-only access to a specific row of the matrix.
-     * @param index The index of the row (0-3).
-     * @return A const pointer to the array representing the row.
-     * @note No bounds checking is performed.
-*/
-const float *matrix4x4::operator[](int index) const {
-    return m[index];
+ * @brief Multiplies a 4D vector by this matrix.
+ * @param vector The vec4 vector to be multiplied.
+ * @return The resulting vec4 after multiplication.
+ */
+// vec3 multiplyMatrixVector(const vec3 &vector, const matrix4x4 &m) {
+//     vec3 result;
+//
+//     result.x = m[0][0] * vector.x + m[1][0] * vector.y + m[2][0] * vector.z + m[3][0];
+//     result.y = m[0][1] * vector.x + m[1][1] * vector.y + vector.z * m[2][1] + m[3][1];
+//     result.z = m[0][2] * vector.x + m[1][2] * vector.y + m[2][2] * vector.z + m[3][2];
+//     float w = m[0][3] * vector.x + vector.y * m[1][3] + vector.z * m[2][3] + m[3][3];
+//
+//     if (w != 0.0f) {
+//         result.x /= w;
+//         result.y /= w;
+//         result.z /= w;
+//     }
+//
+//     return result;
+// }
+/**
+ * @brief Multiplies a 3D vector by a 4x4 matrix, applying projection and perspective divide.
+ * @param vector The vec3 vector to be multiplied.
+ * @param m The 4x4 transformation matrix.
+ * @return The resulting vec3 after multiplication and perspective divide.
+ */
+vec3 multiplyMatrixVector(const vec3 vector, const matrix4x4 m) {
+    vec3 result;
+
+    result.x = vector.x * m.m[0][0] + vector.y * m.m[1][0] + vector.z * m.m[2][0] + m.m[3][0];
+    result.y = vector.x * m.m[0][1] + vector.y * m.m[1][1] + vector.z * m.m[2][1] + m.m[3][1];
+    result.z = vector.x * m.m[0][2] + vector.y * m.m[1][2] + vector.z * m.m[2][2] + m.m[3][2];
+    float w = vector.x * m.m[0][3] + vector.y * m.m[1][3] + vector.z * m.m[2][3] + m.m[3][3];
+
+    if (w != 0.0f)
+    {
+        result.x /= w; result.y /= w; result.z /= w;
+    }
+
+    return result;
 }
+

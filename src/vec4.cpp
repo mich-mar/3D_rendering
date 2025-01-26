@@ -7,16 +7,9 @@
 vec4::vec4() : x(0), y(0), z(0), w(0) {
 }
 
-/**
-     * @brief Parameterized constructor for vec4.
-     * @param x The x-component of the vector.
-     * @param y The y-component of the vector.
-     * @param z The z-component of the vector.
-     * @param w The w-component of the vector.
-*/
-vec4::vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {
+vec4::vec4(float x, float y, float z, float w)
+    : x(x), y(y), z(z), w(w) {
 }
-
 /**
     * @brief Normalizes a given 4D vector.
     * @param v The vector to normalize.

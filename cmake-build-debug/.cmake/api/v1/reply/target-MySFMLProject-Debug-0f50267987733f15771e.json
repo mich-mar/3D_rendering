@@ -197,13 +197,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/math.cpp",
+			"path" : "src/matrix4x4.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/matrix4x4.cpp",
+			"path" : "src/mesh.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

@@ -5,11 +5,11 @@
 #include "math.h"
 
 class render {
-    mesh meshCube, meshCubeTemplate;
+    mesh meshCube;
+    mesh meshObject;
 
 public:
     render();
-    void renderCubeTemplate();
 };
 
 #endif //RENDER_H

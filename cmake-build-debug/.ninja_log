@@ -1,14 +1,17 @@
 # ninja log v6
-3	57	1737824206140824095	CMakeFiles/MySFMLProject.dir/src/math.cpp.o	547026aeaa8daeaa
+4	605	1737878887581091558	CMakeFiles/MySFMLProject.dir/src/render.cpp.o	baba7d13f42e6d19
+0	19	1737879571172550358	build.ninja	418efd95db4b1ddb
+2	466	1737823838188347676	CMakeFiles/reading_uart_c.dir/src/main.cpp.o	363651a609c81a00
+4	185	1737878887581091558	CMakeFiles/MySFMLProject.dir/src/vec4.cpp.o	de6aac9d5d3fcf97
+2	380	1737823524998197786	CMakeFiles/main.dir/src/main.cpp.o	4ae58d3932c7aa1d
+525	610	1737879482908812285	MySFMLProject	413bb12a3dd722ac
+380	425	1737823525376183817	bin/main	46f1147bcced5824
+3	611	1737878887580091544	CMakeFiles/MySFMLProject.dir/src/math.cpp.o	547026aeaa8daeaa
+2	607	1737879464565970556	CMakeFiles/MySFMLProject.dir/src/SFMLhandler.cpp.o	198c805c3b571a9c
 1	509	1737823838187347708	CMakeFiles/reading_uart_c.dir/src/example.cpp.o	c92564bad78c1761
-2	360	1737824206139824125	CMakeFiles/MySFMLProject.dir/src/main.cpp.o	e33f01cde3b7cf56
+3	188	1737878887580091544	CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o	6d0a33c83645dff6
+1	525	1737879482384788319	CMakeFiles/MySFMLProject.dir/src/main.cpp.o	e33f01cde3b7cf56
 2	95	1737823838188347676	CMakeFiles/reading_uart_c.dir/src/math.cpp.o	aa90e2d619b84ed1
 2	494	1737823838188347676	CMakeFiles/reading_uart_c.dir/src/render.cpp.o	e48c8e53670da657
-2	466	1737823838188347676	CMakeFiles/reading_uart_c.dir/src/main.cpp.o	363651a609c81a00
-0	19	1737824219055434590	build.ninja	418efd95db4b1ddb
-2	380	1737823524998197786	CMakeFiles/main.dir/src/main.cpp.o	4ae58d3932c7aa1d
-3	396	1737824206140824095	CMakeFiles/MySFMLProject.dir/src/render.cpp.o	baba7d13f42e6d19
-380	425	1737823525376183817	bin/main	46f1147bcced5824
-2	371	1737824584771169401	CMakeFiles/MySFMLProject.dir/src/main.cpp.o	e33f01cde3b7cf56
-1	388	1737824584770169563	CMakeFiles/MySFMLProject.dir/src/SFMLhandler.cpp.o	198c805c3b571a9c
-388	443	1737824585157107057	MySFMLProject	ce26f4e1feb0aadc
+2	676	1737879585076457644	CMakeFiles/MySFMLProject.dir/src/main.cpp.o	e33f01cde3b7cf56
+676	775	1737879585750453978	MySFMLProject	413bb12a3dd722ac

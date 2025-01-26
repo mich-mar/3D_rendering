@@ -1,6 +1,3 @@
-//
-// Created by michal on 26.01.25.
-//
 
 #include "matrix4x4.h"
 
@@ -141,6 +138,10 @@ matrix4x4 matrix4x4::transpose() const {
     return result;
 }
 
+/**
+   * @brief Creates a projection matrix.
+   * @return A new projection matrix.
+*/
 matrix4x4 genProjection(float fNear, float fFar, float fAspectRatio, float fFovRad) {
     matrix4x4 matProj;
 
@@ -154,27 +155,6 @@ matrix4x4 genProjection(float fNear, float fFar, float fAspectRatio, float fFovR
     return matProj;
 }
 
-/**
- * @brief Multiplies a 4D vector by this matrix.
- * @param vector The vec4 vector to be multiplied.
- * @return The resulting vec4 after multiplication.
- */
-// vec3 multiplyMatrixVector(const vec3 &vector, const matrix4x4 &m) {
-//     vec3 result;
-//
-//     result.x = m[0][0] * vector.x + m[1][0] * vector.y + m[2][0] * vector.z + m[3][0];
-//     result.y = m[0][1] * vector.x + m[1][1] * vector.y + vector.z * m[2][1] + m[3][1];
-//     result.z = m[0][2] * vector.x + m[1][2] * vector.y + m[2][2] * vector.z + m[3][2];
-//     float w = m[0][3] * vector.x + vector.y * m[1][3] + vector.z * m[2][3] + m[3][3];
-//
-//     if (w != 0.0f) {
-//         result.x /= w;
-//         result.y /= w;
-//         result.z /= w;
-//     }
-//
-//     return result;
-// }
 /**
  * @brief Multiplies a 3D vector by a 4x4 matrix, applying projection and perspective divide.
  * @param vector The vec3 vector to be multiplied.

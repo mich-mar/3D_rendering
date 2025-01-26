@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "MySFMLProject",
+					"name" : "3D_rendering",
 					"targetIndexes" : 
 					[
 						0
@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "MySFMLProject::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-MySFMLProject-Debug-0f50267987733f15771e.json",
-					"name" : "MySFMLProject",
+					"id" : "3D_rendering::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-3D_rendering-Debug-a05463415aed2d1744e6.json",
+					"name" : "3D_rendering",
 					"projectIndex" : 0
 				}
 			]

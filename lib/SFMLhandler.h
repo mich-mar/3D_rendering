@@ -22,16 +22,23 @@ struct SFMLhandler {
     sf::Clock clock;
 
 public:
-    SFMLhandler(float width, float height, const std::string& title);
-    void drawTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB& color, float thickness);
-    void drawMesh(const mesh& m, const RGB& color, bool fill);
-    void clearScreen(const RGB& backgroundColor);
+    SFMLhandler(float width, float height, const std::string &title);
+
+    void drawTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB &color, float thickness);
+
+    void fillTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB &color);
+
+    void clearScreen(const RGB &backgroundColor);
+
     void updateScreen();
-    sf::Color convertToSFMLColor(const RGB& color);
-    sf::Vector2f convertToScreenCoordinates(const vec3& point);
-    void run(const mesh& m);
+
+    sf::Color convertToSFMLColor(const RGB &color);
+
     bool handleEvents();
+
     sf::Int32 getElapsedTime();
 };
+
+RGB generateRGB(float illumination);
 
 #endif //SFMLHANDLER_H

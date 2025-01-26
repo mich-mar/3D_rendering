@@ -879,7 +879,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "MySFMLProject"
+			"value" : "3D_rendering"
 		},
 		{
 			"name" : "CMAKE_RANLIB",

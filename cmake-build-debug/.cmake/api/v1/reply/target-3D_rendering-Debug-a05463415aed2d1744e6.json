@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "MySFMLProject"
+			"path" : "3D_rendering"
 		}
 	],
 	"backtrace" : 1,
@@ -122,7 +122,7 @@
 			]
 		}
 	],
-	"id" : "MySFMLProject::@6890427a1f51a3e7e1df",
+	"id" : "3D_rendering::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -158,8 +158,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "MySFMLProject",
-	"nameOnDisk" : "MySFMLProject",
+	"name" : "3D_rendering",
+	"nameOnDisk" : "3D_rendering",
 	"paths" : 
 	{
 		"build" : ".",

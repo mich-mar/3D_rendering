@@ -13,6 +13,8 @@ struct vec3 {
     float z = 0;
 
     vec3& operator=(const vec3& other) = default; // Allow assignment
+    vec3 operator-(const vec3 &other) const;
+    float calLength() const;
 };
 
 /**
@@ -42,6 +44,11 @@ struct vec4 {
       vec4 operator/(vec4 v);
       void setVec4(float x, float y, float z, float w);
 };
+
+vec3 normalVec(triangle tri);
+vec3 normalVec(vec3 vec1, vec3 vec2);
+float dotProduct(vec3 vec1, vec3 vec2);
+
 
 
 

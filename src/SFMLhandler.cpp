@@ -1,16 +1,12 @@
 #include "SFMLhandler.h"
 
 // Constructor
-SFMLhandler::SFMLhandler(float width, float height, const std::string& title)
-    : windowHeight(height), windowWidth(width), window(sf::VideoMode(width, height), title) {}
-
-// Draws an entire mesh (outline or filled)
-void SFMLhandler::drawMesh(const mesh& m, const RGB& color, bool fill) {
-
+SFMLhandler::SFMLhandler(float width, float height, const std::string &title)
+    : windowHeight(height), windowWidth(width), window(sf::VideoMode(width, height), title) {
 }
 
 // Clears the screen with a specified background color
-void SFMLhandler::clearScreen(const RGB& backgroundColor) {
+void SFMLhandler::clearScreen(const RGB &backgroundColor) {
     window.clear(convertToSFMLColor(backgroundColor));
 }
 
@@ -20,30 +16,8 @@ void SFMLhandler::updateScreen() {
 }
 
 // Converts RGB struct to sf::Color
-sf::Color SFMLhandler::convertToSFMLColor(const RGB& color) {
+sf::Color SFMLhandler::convertToSFMLColor(const RGB &color) {
     return sf::Color(color.r, color.g, color.b);
-}
-
-// Converts 3D point to screen coordinates (assuming z is ignored)
-sf::Vector2f SFMLhandler::convertToScreenCoordinates(const vec3& point) {
-    // Convert to 2D screen space (assumes a projection method is handled elsewhere)
-    return sf::Vector2f(point.x * 400 + 400, -point.y * 300 + 300);
-}
-
-// Main loop
-void SFMLhandler::run(const mesh& m) {
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
-
-        clearScreen({0, 0, 0}); // Black background
-        drawMesh(m, {255, 255, 255}, true); // Draw filled mesh in white
-        updateScreen();
-    }
 }
 
 bool SFMLhandler::handleEvents() {
@@ -58,9 +32,10 @@ bool SFMLhandler::handleEvents() {
     return true; // Continue running
 }
 
-void SFMLhandler::drawTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB& color, float thickness) {
+void SFMLhandler::drawTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB &color,
+                               float thickness) {
     // Helper function to create a line with thickness
-    auto createThickLine = [&](float x1, float y1, float x2, float y2, float thickness, const sf::Color& sfColor) {
+    auto createThickLine = [&](float x1, float y1, float x2, float y2, float thickness, const sf::Color &sfColor) {
         sf::Vector2f direction(x2 - x1, y2 - y1);
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
         direction /= length;
@@ -98,6 +73,33 @@ sf::Int32 SFMLhandler::getElapsedTime() {
     return elapsed.asMilliseconds(); // Zwróci liczbę milisekund jako sf::Int32
 }
 
+void SFMLhandler::fillTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB &color) {
+    // Create a triangle using sf::VertexArray
+    sf::VertexArray triangle(sf::Triangles, 3);
 
+    // Convert RGB to sf::Color
+    sf::Color sfColor(color.r, color.g, color.b);
 
+    // Set the vertices positions and colors
+    triangle[0].position = sf::Vector2f(p1_x, p1_y);
+    triangle[0].color = sfColor;
 
+    triangle[1].position = sf::Vector2f(p2_x, p2_y);
+    triangle[1].color = sfColor;
+
+    triangle[2].position = sf::Vector2f(p3_x, p3_y);
+    triangle[2].color = sfColor;
+
+    // Draw the triangle to the window
+    window.draw(triangle);
+}
+
+RGB generateRGB(float illumination) {
+    // Clamp the illumination value between 0 and 1
+    if (illumination < 0.0f) illumination = 0.0f;
+    if (illumination > 1.0f) illumination = 1.0f;
+
+    // Calculate the intensity based on illumination
+    int intensity = static_cast<int>(illumination * 255)/2 + 127;
+    return {intensity, intensity, intensity};
+}

@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: MySFMLProject
+# Project: 3D_rendering
 # Configurations: Debug
 # =============================================================================
 
@@ -41,72 +41,72 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /home/michal/Documents/Programowanie/3D_rendering/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target MySFMLProject
+# Object build statements for EXECUTABLE target 3D_rendering
 
 
 #############################################
-# Order-only phony target for MySFMLProject
+# Order-only phony target for 3D_rendering
 
-build cmake_object_order_depends_target_MySFMLProject: phony || .
+build cmake_object_order_depends_target_3D_rendering: phony || .
 
-build CMakeFiles/MySFMLProject.dir/src/SFMLhandler.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/SFMLhandler.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/SFMLhandler.cpp.o.d
+build CMakeFiles/3D_rendering.dir/src/SFMLhandler.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/SFMLhandler.cpp || cmake_object_order_depends_target_3D_rendering
+  DEP_FILE = CMakeFiles/3D_rendering.dir/src/SFMLhandler.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
-  OBJECT_DIR = CMakeFiles/MySFMLProject.dir
-  OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
+  OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
 
-build CMakeFiles/MySFMLProject.dir/src/main.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/main.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/main.cpp.o.d
+build CMakeFiles/3D_rendering.dir/src/main.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/main.cpp || cmake_object_order_depends_target_3D_rendering
+  DEP_FILE = CMakeFiles/3D_rendering.dir/src/main.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
-  OBJECT_DIR = CMakeFiles/MySFMLProject.dir
-  OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
+  OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
 
-build CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/matrix4x4.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o.d
+build CMakeFiles/3D_rendering.dir/src/matrix4x4.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/matrix4x4.cpp || cmake_object_order_depends_target_3D_rendering
+  DEP_FILE = CMakeFiles/3D_rendering.dir/src/matrix4x4.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
-  OBJECT_DIR = CMakeFiles/MySFMLProject.dir
-  OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
+  OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
 
-build CMakeFiles/MySFMLProject.dir/src/mesh.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/mesh.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/mesh.cpp.o.d
+build CMakeFiles/3D_rendering.dir/src/mesh.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/mesh.cpp || cmake_object_order_depends_target_3D_rendering
+  DEP_FILE = CMakeFiles/3D_rendering.dir/src/mesh.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
-  OBJECT_DIR = CMakeFiles/MySFMLProject.dir
-  OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
+  OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
 
-build CMakeFiles/MySFMLProject.dir/src/render.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/render.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/render.cpp.o.d
+build CMakeFiles/3D_rendering.dir/src/render.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/render.cpp || cmake_object_order_depends_target_3D_rendering
+  DEP_FILE = CMakeFiles/3D_rendering.dir/src/render.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
-  OBJECT_DIR = CMakeFiles/MySFMLProject.dir
-  OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
+  OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
 
-build CMakeFiles/MySFMLProject.dir/src/vec4.cpp.o: CXX_COMPILER__MySFMLProject_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/vec4.cpp || cmake_object_order_depends_target_MySFMLProject
-  DEP_FILE = CMakeFiles/MySFMLProject.dir/src/vec4.cpp.o.d
+build CMakeFiles/3D_rendering.dir/src/vec4.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/vec4.cpp || cmake_object_order_depends_target_3D_rendering
+  DEP_FILE = CMakeFiles/3D_rendering.dir/src/vec4.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
   INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib
-  OBJECT_DIR = CMakeFiles/MySFMLProject.dir
-  OBJECT_FILE_DIR = CMakeFiles/MySFMLProject.dir/src
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
+  OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target MySFMLProject
+# Link build statements for EXECUTABLE target 3D_rendering
 
 
 #############################################
-# Link the executable MySFMLProject
+# Link the executable 3D_rendering
 
-build MySFMLProject: CXX_EXECUTABLE_LINKER__MySFMLProject_Debug CMakeFiles/MySFMLProject.dir/src/SFMLhandler.cpp.o CMakeFiles/MySFMLProject.dir/src/main.cpp.o CMakeFiles/MySFMLProject.dir/src/matrix4x4.cpp.o CMakeFiles/MySFMLProject.dir/src/mesh.cpp.o CMakeFiles/MySFMLProject.dir/src/render.cpp.o CMakeFiles/MySFMLProject.dir/src/vec4.cpp.o | /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
+build 3D_rendering: CXX_EXECUTABLE_LINKER__3D_rendering_Debug CMakeFiles/3D_rendering.dir/src/SFMLhandler.cpp.o CMakeFiles/3D_rendering.dir/src/main.cpp.o CMakeFiles/3D_rendering.dir/src/matrix4x4.cpp.o CMakeFiles/3D_rendering.dir/src/mesh.cpp.o CMakeFiles/3D_rendering.dir/src/render.cpp.o CMakeFiles/3D_rendering.dir/src/vec4.cpp.o | /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
   FLAGS = -g
   LINK_LIBRARIES = /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
-  OBJECT_DIR = CMakeFiles/MySFMLProject.dir
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = MySFMLProject
-  TARGET_PDB = MySFMLProject.dbg
+  TARGET_FILE = 3D_rendering
+  TARGET_PDB = 3D_rendering.dbg
 
 
 #############################################
@@ -142,7 +142,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /home/michal/Documents/Programowanie/3D_rendering/cmake-build-debug
 
-build all: phony MySFMLProject
+build all: phony 3D_rendering
 
 # =============================================================================
 # Built-in targets

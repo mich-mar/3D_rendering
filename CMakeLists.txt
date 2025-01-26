@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Nazwa projektu
-project(MySFMLProject)
+project(3D_rendering)
 
 # Ustaw standard C++
 set(CMAKE_CXX_STANDARD 17)

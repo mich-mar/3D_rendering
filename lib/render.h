@@ -13,6 +13,9 @@ class render {
     float windowHeight = 1000, windowWidth = 1000;
     int ctr = 0;
 
+    vec3 cameraPos;
+    vec3 lightSource = {0.0f, 0.0f, -1.0f};
+
     SFMLhandler sfml;
 
     float fNear = 1.0f;
@@ -23,6 +26,7 @@ class render {
 
 public:
     render();
+    render(float windowHeight, float windowWidth);
     void render2Dview();
 };
 

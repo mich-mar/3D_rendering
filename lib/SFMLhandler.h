@@ -7,13 +7,8 @@
 #include <ctime>
 #include <string>
 #include <mesh.h>
-#include <vec4.h>
-
-struct RGB {
-    int r;
-    int g;
-    int b;
-};
+#include <vec.h>
+#include "RGB.h"
 
 struct SFMLhandler {
     sf::RenderWindow window;

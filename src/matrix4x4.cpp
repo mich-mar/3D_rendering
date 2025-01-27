@@ -1,4 +1,3 @@
-
 #include "matrix4x4.h"
 
 /**
@@ -6,9 +5,9 @@
     * @details Identity matrix has 1's on the diagonal and 0's elsewhere.
     */
 matrix4x4::matrix4x4() {
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            m[i][j] = 0.0f;
+    for (auto & i : m) {
+        for (float & j : i) {
+            j = 0.0f;
         }
     }
 }
@@ -53,10 +52,10 @@ matrix4x4 matrix4x4::genScale(float x, float y, float z) {
 
 /**
     * @brief Generates a rotation matrix around the X axis.
-    * @param angle Rotation angle in degrees.
+    * @param angleRad Rotation angle in degrees.
     * @return A matrix4x4 object representing the rotation.
     */
-matrix4x4 genRotationX(float angleRad) {
+matrix4x4 genRotationX(const float angleRad) {
     matrix4x4 result;
 
     result.m[0][0] = 1;
@@ -71,10 +70,10 @@ matrix4x4 genRotationX(float angleRad) {
 
 /**
     * @brief Generates a rotation matrix around the Y axis.
-    * @param angle Rotation angle in degrees.
+    * @param angleRad Rotation angle in degrees.
     * @return A matrix4x4 object representing the rotation.
     */
-matrix4x4 genRotationY(float angleRad) {
+matrix4x4 genRotationY(const float angleRad) {
     matrix4x4 result;
 
     float cosA = std::cos(angleRad);
@@ -90,7 +89,7 @@ matrix4x4 genRotationY(float angleRad) {
 
 /**
      * @brief Generates a rotation matrix around the Z axis.
-     * @param angle Rotation angle in degrees.
+     * @param angleRad Rotation angle in degrees.
      * @return A matrix4x4 object representing the rotation.
      */
 matrix4x4 genRotationZ(float angleRad) {
@@ -161,7 +160,7 @@ matrix4x4 genProjection(float fNear, float fFar, float fAspectRatio, float fFovR
  * @param m The 4x4 transformation matrix.
  * @return The resulting vec3 after multiplication and perspective divide.
  */
-vec3 multiplyMatrixVector(const vec3 vector, const matrix4x4 m) {
+vec3 multiplyMatrixVector(const vec3 &vector, const matrix4x4& m) {
     vec3 result;
 
     result.x = vector.x * m.m[0][0] + vector.y * m.m[1][0] + vector.z * m.m[2][0] + m.m[3][0];
@@ -169,11 +168,11 @@ vec3 multiplyMatrixVector(const vec3 vector, const matrix4x4 m) {
     result.z = vector.x * m.m[0][2] + vector.y * m.m[1][2] + vector.z * m.m[2][2] + m.m[3][2];
     float w = vector.x * m.m[0][3] + vector.y * m.m[1][3] + vector.z * m.m[2][3] + m.m[3][3];
 
-    if (w != 0.0f)
-    {
-        result.x /= w; result.y /= w; result.z /= w;
+    if (w != 0.0f) {
+        result.x /= w;
+        result.y /= w;
+        result.z /= w;
     }
 
     return result;
 }
-

@@ -13,6 +13,22 @@ class render {
     float windowHeight = 1000, windowWidth = 1000;
     int ctr = 0;
 
+    // Deklaracja macierzy rotacji
+    matrix4x4 MatrixRotX, MatrixRotZ;
+    std::vector<triangle> trianglesToRaster;
+
+    // Deklaracja różnych wersji trójkąta (przekształconego, zrotowanego, przesuniętego itp.)
+    triangle triProjected, triTranslated, triRotatedZ, triRotatedZX;
+
+    float zOffset = 8.0f;
+    vec3 normal;
+    float length;
+    float dp;
+    float Xoffset = 1.0f;
+    float Yoffset = 1.0f;
+    float objScale = 0.5f;
+    float rotAngle = 1.0f;
+
     vec3 cameraPos;
     vec3 lightSource = {0.0f, 0.0f, -1.0f};
 
@@ -25,7 +41,7 @@ class render {
     float fFovRad;
 
 public:
-    render(float windowHeight, float windowWidth, std::string filename);
+    render(float windowHeight, float windowWidth, const std::string &filename);
 
     void render2Dview();
 };

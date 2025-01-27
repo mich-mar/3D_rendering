@@ -7,7 +7,7 @@
  * @brief Adds a triangle to the mesh.
  * @param tri The triangle to add.
  */
-void mesh::addTriangle(const triangle &tri) {
+void mesh::addTriangle(const triangle3D &tri) {
     triangles.push_back(tri);
 }
 
@@ -25,8 +25,8 @@ bool mesh::loadObj(const std::string &filename) {
         return false;
     }
 
-    std::vector<vec3> vertices; // Lista wierzchołków
-    std::vector<vec3> normals; // Lista wektorów normalnych
+    std::vector<vec3D> vertices; // Lista wierzchołków
+    std::vector<vec3D> normals; // Lista wektorów normalnych
     std::string line;
 
     triangles.clear(); // Wyczyszczenie listy trójkątów
@@ -38,12 +38,12 @@ bool mesh::loadObj(const std::string &filename) {
 
         if (prefix == "v") {
             // Wczytanie wierzchołka
-            vec3 vertex;
+            vec3D vertex;
             iss >> vertex.x >> vertex.y >> vertex.z;
             vertices.push_back(vertex);
         } else if (prefix == "vn") {
             // Wczytanie wektora normalnego
-            vec3 normal;
+            vec3D normal;
             iss >> normal.x >> normal.y >> normal.z;
             normals.push_back(normal);
         } else if (prefix == "f") {
@@ -70,7 +70,7 @@ bool mesh::loadObj(const std::string &filename) {
             }
 
             // Tworzenie trójkąta z wierzchołków (ignorujemy normalne w tej wersji)
-            triangle tri = {
+            triangle3D tri = {
                 vertices[vertexIndices[0] - 1],
                 vertices[vertexIndices[1] - 1],
                 vertices[vertexIndices[2] - 1]
@@ -89,33 +89,32 @@ bool mesh::loadObj(const std::string &filename) {
  */
 void mesh::generateCube() {
     triangles = {
-
         // SOUTH
-        {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f},
-        {0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f},
+        {{0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}},
+        {{0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}},
 
         // EAST
-        {1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f},
-        {1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f},
+        {{1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}},
+        {{1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}},
 
         // NORTH
-        {1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f},
-        {1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f},
+        {{1.0f, 0.0f, 1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
+        {{1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
 
         // WEST
-        {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f},
-        {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+        {{0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
+        {{0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f}},
 
         // TOP
-        {0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f},
-        {0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f},
+        {{0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 1.0f}},
+        {{0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 0.0f}},
 
         // BOTTOM
-        {1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f},
-
+        {{1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}},
+        {{1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}}
     };
-};
+}
+
 
 void mesh::printTriangles() const {
     // Wypisanie wszystkich trójkątów

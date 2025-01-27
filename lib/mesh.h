@@ -11,12 +11,12 @@
  * @brief Represents a 3D mesh, composed of triangles, with utility functions for transformation, loading, and saving.
  */
 struct mesh {
-    std::vector<triangle> triangles; ///< List of triangles making up the mesh
+    std::vector<triangle3D> triangles; ///< List of triangles making up the mesh
 
 public:
     mesh() = default;
 
-    void addTriangle(const triangle& tri);
+    void addTriangle(const triangle3D& tri);
     // void applyTransform(const matrix4x4& transform);
     bool loadObj(const std::string& filename);
     void saveObj(const std::string& filename) const;

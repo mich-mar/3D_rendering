@@ -7,8 +7,9 @@
 #include <ctime>
 #include <string>
 #include <mesh.h>
-#include <vec.h>
+#include <vec3D.h>
 #include "RGB.h"
+#include "point2D.h"
 
 struct SFMLhandler {
     sf::RenderWindow window;
@@ -19,13 +20,15 @@ struct SFMLhandler {
 public:
     SFMLhandler(float width, float height, const std::string &title);
 
-    void drawTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB &color, float thickness);
+    void drawTriangle(point2D p1, point2D p2, point2D p3, const RGB &color, float thickness);
 
-    void fillTriangle(int p1_x, int p1_y, int p2_x, int p2_y, int p3_x, int p3_y, const RGB &color);
+    void fillTriangle(point2D p1, point2D p2, point2D p3, const RGB &color);
 
     void clearScreen(const RGB &backgroundColor);
 
     void updateScreen();
+
+    sf::ConvexShape createThickLine (float x1, float y1, float x2, float y2, float thickness, const sf::Color &sfColor);
 
     sf::Color convertToSFMLColor(const RGB &color);
 

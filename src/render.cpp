@@ -1,15 +1,46 @@
 #include "render.h"
 
-#include <fstream>
+void MultiplyMatrixVector(vec3D &i, vec3D &o, matrix4x4 &m) {
+    o.x = i.x * m.m[0][0] + i.y * m.m[1][0] + i.z * m.m[2][0] + m.m[3][0];
+    o.y = i.x * m.m[0][1] + i.y * m.m[1][1] + i.z * m.m[2][1] + m.m[3][1];
+    o.z = i.x * m.m[0][2] + i.y * m.m[1][2] + i.z * m.m[2][2] + m.m[3][2];
+    float w = i.x * m.m[0][3] + i.y * m.m[1][3] + i.z * m.m[2][3] + m.m[3][3];
+
+    if (w != 0.0f) {
+        o.x /= w;
+        o.y /= w;
+        o.z /= w;
+    }
+}
+
+triangle3D rot(triangle3D &tri, matrix4x4 &matrixRot) {
+    triangle3D tempTri;
+
+    tempTri.p[0] = multiplyMatrixByVector(tri.p[0], matrixRot);
+    tempTri.p[1] = multiplyMatrixByVector(tri.p[1], matrixRot);
+    tempTri.p[2] = multiplyMatrixByVector(tri.p[2], matrixRot);
+
+    return tempTri;
+}
+
+float depth = 8.0f;
+
+triangle3D transXY(triangle3D &tri) {
+    triangle3D triTranslated;
+
+    triTranslated.p[0].z = tri.p[0].z + depth;
+    triTranslated.p[1].z = tri.p[1].z + depth;
+    triTranslated.p[2].z = tri.p[2].z + depth;
+
+    return triTranslated;
+}
 
 // Przeciążony konstruktor klasy render z argumentami dla szerokości i wysokości okna
-render::render(float windowHeight, float windowWidth, const std::string& filename) : sfml(
+render::render(float windowHeight, float windowWidth, const std::string &filename) : sfml(
     windowWidth, windowHeight, "3D rendering") {
     // Generowanie siatki sześcianu
-    if (filename == "-")
-        meshObject.generateCube();
-    else
-        meshObject.loadObj(filename);
+    meshObject.loadObj(filename);
+    // meshObject.generateCube();
 
 
     // Obliczanie stosunku szerokości do wysokości okna
@@ -24,105 +55,123 @@ void render::render2Dview() {
     trianglesToRaster.clear();
 
     // Czyszczenie ekranu i ustawienie koloru tła na szary
-    sfml.clearScreen({100, 100, 100});
+    sfml.clearScreen({0, 0, 0});
 
-        // Generowanie macierzy projekcji
-        projection = genProjection(fNear, fFar, fAspectRatio, fFovRad);
+    // Generowanie macierzy projekcji
+    projection = genProjectionMatrix(fNear, fFar, fAspectRatio, fFovRad);
 
 
     // Ustalanie kąta rotacji zmieniającego się w czasie (zależnego od ctr)
-    rotAngle += static_cast<float>(ctr) * 0.01f;
+    rotAngle += static_cast<float>(ctr) * 0.0001f;
 
     // Generowanie macierzy rotacji wzdłuż osi X i Z
     MatrixRotX = genRotationX(rotAngle);
     MatrixRotZ = genRotationZ(rotAngle);
 
+    vec3D camera;
+
+    std::vector<triangle3D> vecTrianglesToRaster;
+
+
     // Iteracja przez wszystkie trójkąty w siatce sześcianu
-    for (auto &tri: meshObject.triangles) {
+    for (auto tri: meshObject.triangles) {
+        triangle3D triProjected, triTranslated, triRotatedZ, triRotatedZX;
 
-        // Rotacja trójkąta wzdłuż osi Z
-        triRotatedZ.p[0] = multiplyMatrixVector(tri.p[0], MatrixRotZ);
-        triRotatedZ.p[1] = multiplyMatrixVector(tri.p[1], MatrixRotZ);
-        triRotatedZ.p[2] = multiplyMatrixVector(tri.p[2], MatrixRotZ);
+        // Rotate in Z-Axis
+        triRotatedZ = rot(tri, MatrixRotZ);
+        // MultiplyMatrixVector(tri.p[0], triRotatedZ.p[0], MatrixRotZ);
+        // MultiplyMatrixVector(tri.p[1], triRotatedZ.p[1], MatrixRotZ);
+        // MultiplyMatrixVector(tri.p[2], triRotatedZ.p[2], MatrixRotZ);
 
-        // Rotacja wzdłuż osi X
-        triRotatedZX.p[0] = multiplyMatrixVector(triRotatedZ.p[0], MatrixRotX);
-        triRotatedZX.p[1] = multiplyMatrixVector(triRotatedZ.p[1], MatrixRotX);
-        triRotatedZX.p[2] = multiplyMatrixVector(triRotatedZ.p[2], MatrixRotX);
+        // Rotate in X-Axis
+        triRotatedZX = rot(triRotatedZ, MatrixRotX);
+        // MultiplyMatrixVector(triRotatedZ.p[0], triRotatedZX.p[0], MatrixRotX);
+        // MultiplyMatrixVector(triRotatedZ.p[1], triRotatedZX.p[1], MatrixRotX);
+        // MultiplyMatrixVector(triRotatedZ.p[2], triRotatedZX.p[2], MatrixRotX);
 
-        // Translacja trójkąta w osi Z (przesunięcie go do przodu)
+        // Offset into the screen
+        // triTranslated = transXY(triRotatedZX);
         triTranslated = triRotatedZX;
-        triTranslated.p[0].z = triRotatedZX.p[0].z + zOffset;
-        triTranslated.p[1].z = triRotatedZX.p[1].z + zOffset;
-        triTranslated.p[2].z = triRotatedZX.p[2].z + zOffset;
+        triTranslated.p[0].z = triRotatedZX.p[0].z + 8.0f;
+        triTranslated.p[1].z = triRotatedZX.p[1].z + 8.0f;
+        triTranslated.p[2].z = triRotatedZX.p[2].z + 8.0f;
 
-        // create normal to triangle
-        normal = normalVec(triTranslated);
+        // Use Cross-Product to get surface normal
+        vec3D normal, line1, line2;
+        line1.x = triTranslated.p[1].x - triTranslated.p[0].x;
+        line1.y = triTranslated.p[1].y - triTranslated.p[0].y;
+        line1.z = triTranslated.p[1].z - triTranslated.p[0].z;
 
-        if (dotProduct(normal, triTranslated.p[0] - cameraPos) < 0.0f) {
-            // Ilumination
-            length = lightSource.calLength();
-            lightSource.x /= length;
-            lightSource.y /= length;
-            lightSource.z /= length;
+        line2.x = triTranslated.p[2].x - triTranslated.p[0].x;
+        line2.y = triTranslated.p[2].y - triTranslated.p[0].y;
+        line2.z = triTranslated.p[2].z - triTranslated.p[0].z;
 
-            dp = dotProduct(normal, lightSource);
+        normal.x = line1.y * line2.z - line1.z * line2.y;
+        normal.y = line1.z * line2.x - line1.x * line2.z;
+        normal.z = line1.x * line2.y - line1.y * line2.x;
 
-            RGB color = generateRGB(dp);
+        // It's normally normal to normalise the normal
+        float l = sqrtf(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+        normal.x /= l;
+        normal.y /= l;
+        normal.z /= l;
 
-            triProjected.color = color;
+        //if (normal.z < 0)
+        if (normal.x * (triTranslated.p[0].x - camera.x) +
+            normal.y * (triTranslated.p[0].y - camera.y) +
+            normal.z * (triTranslated.p[0].z - camera.z) < 0.0f) {
+            // Illumination
+            vec3D light_direction = {0.0f, 0.0f, -1.0f};
+            float ll = sqrtf(
+                light_direction.x * light_direction.x + light_direction.y * light_direction.y + light_direction.z *
+                light_direction.z);
+            light_direction.x /= ll;
+            light_direction.y /= ll;
+            light_direction.z /= ll;
 
-            // Projekcja trójkąta 3D na płaszczyznę 2D
-            triProjected.p[0] = multiplyMatrixVector(triTranslated.p[0], projection);
-            triProjected.p[1] = multiplyMatrixVector(triTranslated.p[1], projection);
-            triProjected.p[2] = multiplyMatrixVector(triTranslated.p[2], projection);
+            // How similar is normal to light direction
+            float dp = normal.x * light_direction.x + normal.y * light_direction.y + normal.z * light_direction.z;
 
-            // Dodanie przesunięcia w osi X i Y, aby trójkąt znalazł się w widocznym zakresie
-            triProjected.p[0].x += Xoffset;
-            triProjected.p[0].y += Yoffset;
-            triProjected.p[1].x += Xoffset;
-            triProjected.p[1].y += Yoffset;
-            triProjected.p[2].x += Xoffset;
-            triProjected.p[2].y += Yoffset;
+            triProjected.color = generateRGB(dp);
 
-            // Skalowanie trójkąta na podstawie rozmiarów okna
-            triProjected.p[0].x *= objScale * (float) windowWidth;
-            triProjected.p[0].y *= objScale * (float) windowHeight;
-            triProjected.p[1].x *= objScale * (float) windowWidth;
-            triProjected.p[1].y *= objScale * (float) windowHeight;
-            triProjected.p[2].x *= objScale * (float) windowWidth;
-            triProjected.p[2].y *= objScale * (float) windowHeight;
+            // Project triangles from 3D --> 2D
+            MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], projection);
+            MultiplyMatrixVector(triTranslated.p[1], triProjected.p[1], projection);
+            MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], projection);
 
-            trianglesToRaster.push_back(triProjected);
+            // Scale into view
+            triProjected.p[0].x += 1.0f;
+            triProjected.p[0].y += 1.0f;
+            triProjected.p[1].x += 1.0f;
+            triProjected.p[1].y += 1.0f;
+            triProjected.p[2].x += 1.0f;
+            triProjected.p[2].y += 1.0f;
+            triProjected.p[0].x *= 0.5f * (float) sfml.windowWidth;
+            triProjected.p[0].y *= 0.5f * (float) sfml.windowHeight;
+            triProjected.p[1].x *= 0.5f * (float) sfml.windowWidth;
+            triProjected.p[1].y *= 0.5f * (float) sfml.windowHeight;
+            triProjected.p[2].x *= 0.5f * (float) sfml.windowWidth;
+            triProjected.p[2].y *= 0.5f * (float) sfml.windowHeight;
 
-            // Rysowanie trójkąta na ekranie za pomocą SFML
-            // sfml.fillTriangle(
-            //     triProjected.p[0].x, triProjected.p[0].y,
-            //     triProjected.p[1].x, triProjected.p[1].y,
-            //     triProjected.p[2].x, triProjected.p[2].y,color
-            // );
-
-            // sfml.drawTriangle(
-            //     triProjected.p[0].x, triProjected.p[0].y,
-            //     triProjected.p[1].x, triProjected.p[1].y,
-            //     triProjected.p[2].x, triProjected.p[2].y,{0,0,0},3.0f
-            // );
+            // Store triangle for sorting
+            vecTrianglesToRaster.push_back(triProjected);
         }
+    }
 
-        // sorting triangles to raster
-        sort(trianglesToRaster.begin(), trianglesToRaster.end(), [](triangle a, triangle b) {
-            float z1 = (a.p[0].z + a.p[1].z + a.p[2].z) / 3.0f;
-            float z2 = (b.p[0].z + b.p[1].z + b.p[2].z) / 3.0f;
-            return z1 > z2;
-        });
+    // Sort triangles from back to front
+    sort(vecTrianglesToRaster.begin(), vecTrianglesToRaster.end(), [](triangle3D &t1, triangle3D &t2) {
+        float z1 = (t1.p[0].z + t1.p[1].z + t1.p[2].z) / 3.0f;
+        float z2 = (t2.p[0].z + t2.p[1].z + t2.p[2].z) / 3.0f;
+        return z1 > z2;
+    });
 
-        for (auto &tri: trianglesToRaster) {
-            sfml.fillTriangle(
-                tri.p[0].x, tri.p[0].y,
-                tri.p[1].x, tri.p[1].y,
-                tri.p[2].x, tri.p[2].y, {tri.color}
-            );
-        }
+    for (auto &triProjected: vecTrianglesToRaster) {
+        point2D p1 = {triProjected.p[0].x, triProjected.p[0].y};
+        point2D p2 = {triProjected.p[1].x, triProjected.p[1].y};
+        point2D p3 = {triProjected.p[2].x, triProjected.p[2].y};
+
+        // Rasterize triangle
+        sfml.fillTriangle(p1, p2, p3, triProjected.color);
     }
 
     // Obsługa zdarzeń SFML
@@ -134,3 +183,20 @@ void render::render2Dview() {
     // Licznik czasu / klatek
     ctr++;
 }
+
+// void render::rotX(triangle3D &tri, matrix4x4 &MatrixRotX) {
+//     // Rotate in X-Axis
+//     tri.p[0] = multiplyMatrixByVector(tri.p[0], MatrixRotX);
+//     tri.p[1] = multiplyMatrixByVector(tri.p[1], MatrixRotX);
+//     tri.p[2] = multiplyMatrixByVector(tri.p[2], MatrixRotX);
+//     // tri.p[0].normalize();
+//     // tri.p[1].normalize();
+//     // tri.p[2].normalize();
+// }
+//
+// void render::transXY(triangle3D &tri) {
+//     // Offset into the screen
+//     tri.p[0].z = tri.p[0].z + DepthOffset;
+//     tri.p[1].z = tri.p[1].z + DepthOffset;
+//     tri.p[2].z = tri.p[2].z + DepthOffset;
+// }

@@ -1,19 +1,6 @@
 #include "render.h"
 
-void MultiplyMatrixVector(vec3D &i, vec3D &o, matrix4x4 &m) {
-    o.x = i.x * m.m[0][0] + i.y * m.m[1][0] + i.z * m.m[2][0] + m.m[3][0];
-    o.y = i.x * m.m[0][1] + i.y * m.m[1][1] + i.z * m.m[2][1] + m.m[3][1];
-    o.z = i.x * m.m[0][2] + i.y * m.m[1][2] + i.z * m.m[2][2] + m.m[3][2];
-    float w = i.x * m.m[0][3] + i.y * m.m[1][3] + i.z * m.m[2][3] + m.m[3][3];
-
-    if (w != 0.0f) {
-        o.x /= w;
-        o.y /= w;
-        o.z /= w;
-    }
-}
-
-triangle3D rot(triangle3D &tri, matrix4x4 &matrixRot) {
+triangle3D render::rot(triangle3D &tri, matrix4x4 &matrixRot) {
     triangle3D tempTri;
 
     tempTri.p[0] = multiplyMatrixByVector(tri.p[0], matrixRot);
@@ -23,25 +10,65 @@ triangle3D rot(triangle3D &tri, matrix4x4 &matrixRot) {
     return tempTri;
 }
 
-float depth = 8.0f;
 
-triangle3D transXY(triangle3D &tri) {
+triangle3D render::transXY(triangle3D &tri) {
     triangle3D triTranslated = tri;
 
-    triTranslated.p[0].z = tri.p[0].z + depth;
-    triTranslated.p[1].z = tri.p[1].z + depth;
-    triTranslated.p[2].z = tri.p[2].z + depth;
+    triTranslated.p[0].z = tri.p[0].z + depthOffset;
+    triTranslated.p[1].z = tri.p[1].z + depthOffset;
+    triTranslated.p[2].z = tri.p[2].z + depthOffset;
 
     return triTranslated;
 }
+
+triangle3D render::triScale(triangle3D &tri) {
+    triangle3D triProjected = tri;
+
+    // Przesunięcie współrzędnych
+    for (int i = 0; i < 3; ++i) {
+        triProjected.p[i].x += Xoffset;
+        triProjected.p[i].y += Yoffset;
+    }
+
+    // Skalowanie współrzędnych do rozmiaru okna
+    for (int i = 0; i < 3; ++i) {
+        triProjected.p[i].x *= 0.5f * windowWidth;
+        triProjected.p[i].y *= 0.5f * windowHeight;
+    }
+
+    return triProjected;
+}
+
+triangle3D render::transformTriangle3D(const triangle3D& triTranslated, const matrix4x4& projection) {
+    triangle3D triProjected = triTranslated;
+
+    // Przemnożenie każdego wierzchołka przez macierz projekcji
+    triProjected.p[0] = multiplyMatrixByVector(triTranslated.p[0], projection);
+    triProjected.p[1] = multiplyMatrixByVector(triTranslated.p[1], projection);
+    triProjected.p[2] = multiplyMatrixByVector(triTranslated.p[2], projection);
+    triProjected.p[0] /= triProjected.p[0].w;
+    triProjected.p[1] /= triProjected.p[1].w;
+    triProjected.p[2] /= triProjected.p[2].w;
+
+    return triProjected;
+}
+
+
 
 // Przeciążony konstruktor klasy render z argumentami dla szerokości i wysokości okna
 render::render(float windowHeight, float windowWidth, const std::string &filename) : sfml(
     windowWidth, windowHeight, "3D rendering") {
     // Generowanie siatki sześcianu
-    meshObject.loadObj(filename);
-    // meshObject.generateCube();
 
+    if (filename != "-") {
+        meshObject.loadObj(filename);
+    } else {
+        meshObject.generateCube();
+        Xoffset = 1.0f;
+        Yoffset = 1.0f;
+        objScale = 0.5f;
+        depthOffset = 3.0f;
+    }
 
     // Obliczanie stosunku szerokości do wysokości okna
     fAspectRatio = static_cast<float>(windowHeight) / windowWidth;
@@ -68,8 +95,6 @@ void render::render2Dview() {
     MatrixRotX = genRotationX(rotAngle);
     MatrixRotZ = genRotationZ(rotAngle / 2);
 
-    vec3D camera;
-
     std::vector<triangle3D> vecTrianglesToRaster;
 
 
@@ -87,8 +112,6 @@ void render::render2Dview() {
         triTranslated = transXY(triRotatedZX);
 
         // Use Cross-Product to get surface normal
-        // vec3D normal;
-
         normal = normalVec(triTranslated);
 
         //if (normal.z < 0)
@@ -96,44 +119,18 @@ void render::render2Dview() {
             // Illumination
             vec3D light_direction = {0.0f, 0.0f, -1.0f};
 
-            float ll = sqrtf(
-                light_direction.x * light_direction.x + light_direction.y * light_direction.y + light_direction.z *
-                light_direction.z);
-            light_direction.x /= ll;
-            light_direction.y /= ll;
-            light_direction.z /= ll;
+            light_direction.normalize();
 
             // How similar is normal to light direction
             float dp = normal.x * light_direction.x + normal.y * light_direction.y + normal.z * light_direction.z;
 
-            triProjected.color = generateRGB(dp);
+            triTranslated.color = generateRGB(dp);
 
             // Project triangles from 3D --> 2D
-            MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], projection);
-            MultiplyMatrixVector(triTranslated.p[1], triProjected.p[1], projection);
-            MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], projection);
-            // @todo: nie działa
-            // triTranslated.p[0] = multiplyMatrixByVector(triTranslated.p[0],projection);
-            // triTranslated.p[1] = multiplyMatrixByVector(triTranslated.p[1],projection);
-            // triTranslated.p[2] = multiplyMatrixByVector(triTranslated.p[2],projection);
-            // triTranslated.p[0].normalize();
-            // triTranslated.p[1].normalize();
-            // triTranslated.p[2].normalize();
-
+            triProjected = transformTriangle3D(triTranslated, projection);
 
             // Scale into view
-            triProjected.p[0].x += 1.0f;
-            triProjected.p[0].y += 1.0f;
-            triProjected.p[1].x += 1.0f;
-            triProjected.p[1].y += 1.0f;
-            triProjected.p[2].x += 1.0f;
-            triProjected.p[2].y += 1.0f;
-            triProjected.p[0].x *= 0.5f * (float) sfml.windowWidth;
-            triProjected.p[0].y *= 0.5f * (float) sfml.windowHeight;
-            triProjected.p[1].x *= 0.5f * (float) sfml.windowWidth;
-            triProjected.p[1].y *= 0.5f * (float) sfml.windowHeight;
-            triProjected.p[2].x *= 0.5f * (float) sfml.windowWidth;
-            triProjected.p[2].y *= 0.5f * (float) sfml.windowHeight;
+            triProjected = triScale(triProjected);
 
             // Store triangle for sorting
             vecTrianglesToRaster.push_back(triProjected);
@@ -165,20 +162,3 @@ void render::render2Dview() {
     // Licznik czasu / klatek
     ctr++;
 }
-
-// void render::rotX(triangle3D &tri, matrix4x4 &MatrixRotX) {
-//     // Rotate in X-Axis
-//     tri.p[0] = multiplyMatrixByVector(tri.p[0], MatrixRotX);
-//     tri.p[1] = multiplyMatrixByVector(tri.p[1], MatrixRotX);
-//     tri.p[2] = multiplyMatrixByVector(tri.p[2], MatrixRotX);
-//     // tri.p[0].normalize();
-//     // tri.p[1].normalize();
-//     // tri.p[2].normalize();
-// }
-//
-// void render::transXY(triangle3D &tri) {
-//     // Offset into the screen
-//     tri.p[0].z = tri.p[0].z + DepthOffset;
-//     tri.p[1].z = tri.p[1].z + DepthOffset;
-//     tri.p[2].z = tri.p[2].z + DepthOffset;
-// }

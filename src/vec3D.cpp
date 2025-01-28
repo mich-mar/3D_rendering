@@ -1,24 +1,5 @@
 #include "vec3D.h"
 
-/**
- * @brief Default constructor for vec3D.
- * Initializes the vector components to (0, 0, 0, 0).
- */
-vec3D::vec3D() : x(0), y(0), z(0), w(0) {
-}
-
-/**
- * @brief Constructor for vec3D with parameters.
- * Initializes the vector components with the given values.
- *
- * @param x The x component of the vector.
- * @param y The y component of the vector.
- * @param z The z component of the vector.
- * @param w The w component of the vector.
- */
-vec3D::vec3D(float x, float y, float z, float w)
-    : x(x), y(y), z(z), w(w) {
-}
 
 /**
  * @brief Constructor for vec3D with parameters.
@@ -29,7 +10,7 @@ vec3D::vec3D(float x, float y, float z, float w)
  * @param z The z component of the vector.
  */
 vec3D::vec3D(float x, float y, float z)
-    : x(x), y(y), z(z), w(0) {
+    : x(x), y(y), z(z) {
 }
 
 /**
@@ -37,7 +18,7 @@ vec3D::vec3D(float x, float y, float z)
  * @param v The vector to add to this vector.
  * @return A new vector that is the result of the addition.
  */
-vec3D vec3D::operator+(const vec3D& v) const {
+vec3D vec3D::operator+(const vec3D &v) const {
     return vec3D(x + v.x, y + v.y, z + v.z);
 }
 
@@ -55,7 +36,7 @@ vec3D vec3D::operator+(const float val) const {
  * @param v The vector to subtract from this vector.
  * @return A new vector that is the result of the subtraction.
  */
-vec3D vec3D::operator-(const vec3D& v) const {
+vec3D vec3D::operator-(const vec3D &v) const {
     return vec3D(x - v.x, y - v.y, z - v.z);
 }
 
@@ -73,7 +54,7 @@ vec3D vec3D::operator-(const float val) const {
  * @param v The vector to multiply with this vector.
  * @return A new vector that is the result of the multiplication.
  */
-vec3D vec3D::operator*(const vec3D& v) const {
+vec3D vec3D::operator*(const vec3D &v) const {
     return vec3D(x * v.x, y * v.y, z * v.z);
 }
 
@@ -92,13 +73,9 @@ vec3D vec3D::operator*(const float val) const {
  * @return A new vector that is the result of the division.
  *         Components are set to 0 if division by zero occurs.
  */
-vec3D vec3D::operator/(const vec3D& v) const {
-    return vec3D(
-        v.x != 0 ? x / v.x : 0,
-        v.y != 0 ? y / v.y : 0,
-        v.z != 0 ? z / v.z : 0,
-        w
-    );
+vec3D vec3D::operator/(const vec3D &v) const {
+    vec3D result = vec3D(x / v.x, y / v.y, z / v.z);
+    return result;
 }
 
 /**
@@ -108,12 +85,12 @@ vec3D vec3D::operator/(const vec3D& v) const {
  *         Components are set to 0 if division by zero occurs.
  */
 vec3D vec3D::operator/(const float val) const {
-    return vec3D(
-        val != 0 ? x / val : 0,
-        val != 0 ? y / val : 0,
-        val != 0 ? z / val : 0,
-        w
-    );
+    vec3D result = vec3D(x / val, y / val, z / val);
+    return result;
+}
+
+float vec3D::length() {
+    return sqrtf(x * x + y * y + z * z);
 }
 
 /**
@@ -121,15 +98,11 @@ vec3D vec3D::operator/(const float val) const {
  * Modifies the vector in place. If the magnitude is 0, the vector is set to (0, 0, 0, 0).
  */
 void vec3D::normalize() {
-    float magnitude = std::sqrt(x * x + y * y + z * z);
+    float l = length();
 
-    if (magnitude != 0) {
-        x /= magnitude;
-        y /= magnitude;
-        z /= magnitude;
-    } else {
-        *this = vec3D(0, 0, 0, 0);
-    }
+    x /= l;
+    y /= l;
+    z /= l;
 }
 
 /**
@@ -137,7 +110,7 @@ void vec3D::normalize() {
  * @param v The vector to copy.
  * @return A reference to this vector.
  */
-vec3D& vec3D::operator=(const vec3D& v) {
+vec3D &vec3D::operator=(const vec3D &v) {
     if (this != &v) {
         x = v.x;
         y = v.y;
@@ -152,11 +125,10 @@ vec3D& vec3D::operator=(const vec3D& v) {
  * @param v The vector to add.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator+=(const vec3D& v) {
+vec3D &vec3D::operator+=(const vec3D &v) {
     x += v.x;
     y += v.y;
     z += v.z;
-    w += v.w;
     return *this;
 }
 
@@ -165,11 +137,10 @@ vec3D& vec3D::operator+=(const vec3D& v) {
  * @param v The vector to subtract.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator-=(const vec3D& v) {
+vec3D &vec3D::operator-=(const vec3D &v) {
     x -= v.x;
     y -= v.y;
     z -= v.z;
-    w -= v.w;
     return *this;
 }
 
@@ -178,11 +149,10 @@ vec3D& vec3D::operator-=(const vec3D& v) {
  * @param v The vector to multiply with.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator*=(const vec3D& v) {
+vec3D &vec3D::operator*=(const vec3D &v) {
     x *= v.x;
     y *= v.y;
     z *= v.z;
-    w *= v.w;
     return *this;
 }
 
@@ -191,11 +161,10 @@ vec3D& vec3D::operator*=(const vec3D& v) {
  * @param v The vector to divide by. Division by zero sets the component to 0.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator/=(const vec3D& v) {
+vec3D &vec3D::operator/=(const vec3D &v) {
     x = (v.x != 0) ? x / v.x : 0;
     y = (v.y != 0) ? y / v.y : 0;
     z = (v.z != 0) ? z / v.z : 0;
-    w = (v.w != 0) ? w / v.w : 0;
     return *this;
 }
 
@@ -204,11 +173,10 @@ vec3D& vec3D::operator/=(const vec3D& v) {
  * @param val The scalar value to add.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator+=(float val) {
+vec3D &vec3D::operator+=(float val) {
     x += val;
     y += val;
     z += val;
-    w += val;
     return *this;
 }
 
@@ -217,11 +185,10 @@ vec3D& vec3D::operator+=(float val) {
  * @param val The scalar value to subtract.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator-=(float val) {
+vec3D &vec3D::operator-=(float val) {
     x -= val;
     y -= val;
     z -= val;
-    w -= val;
     return *this;
 }
 
@@ -230,11 +197,10 @@ vec3D& vec3D::operator-=(float val) {
  * @param val The scalar value to multiply with.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator*=(float val) {
+vec3D &vec3D::operator*=(float val) {
     x *= val;
     y *= val;
     z *= val;
-    w *= val;
     return *this;
 }
 
@@ -243,14 +209,10 @@ vec3D& vec3D::operator*=(float val) {
  * @param val The scalar value to divide by. Division by zero sets components to 0.
  * @return A reference to this vector after modification.
  */
-vec3D& vec3D::operator/=(float val) {
-    if (val != 0) {
-        x /= val;
-        y /= val;
-        z /= val;
-        w /= val;
-    } else {
-        x = y = z = w = 0;
-    }
+vec3D &vec3D::operator/=(float val) {
+    x /= val;
+    y /= val;
+    z /= val;
+
     return *this;
 }

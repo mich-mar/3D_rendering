@@ -45,15 +45,6 @@ vec3D normalVec(const triangle3D &tri) {
     return result;
 }
 
-float dotProduct(vec3D &v1, vec3D &v2) {
-    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-}
-
-float length(vec3D &v) {
-    return sqrtf(dotProduct(v, v));
-}
-
-
 /**
     * @brief Generates a rotation matrix around the X axis.
     * @param angleRad Rotation angle in degrees.
@@ -148,4 +139,8 @@ vec3D multiplyMatrixByVector(const vec3D &vector, const matrix4x4 &m) {
     //     result.z = vector.z / w;
     // }
     return result;
+}
+
+float dotProduct(vec3D &v1, vec3D &v2) {
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }

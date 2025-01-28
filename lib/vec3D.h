@@ -5,12 +5,11 @@
 
 struct vec3D {
     // Składowe wektora
-    float x, y, z, w;
+    float x = 0, y = 0, z = 0, w = 1;
 
     // Konstruktory
-    vec3D();                                    // Domyślny konstruktor
+    vec3D() = default;
     vec3D(float x, float y, float z);  // Konstruktor z parametrami
-    vec3D(float x, float y, float z, float w);  // Konstruktor z parametrami
 
     // Operatory arytmetyczne (const methods)
     vec3D operator+(const vec3D& v) const;
@@ -38,7 +37,11 @@ struct vec3D {
 
     // Metody narzędziowe
     void normalize(); // Normalizacja wektora
+
+    float length();
 };
+
+float dotProduct(vec3D &v1, vec3D &v2);
 
 
 

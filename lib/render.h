@@ -24,12 +24,12 @@ class render {
     // Deklaracja różnych wersji trójkąta (przekształconego, zrotowanego, przesuniętego itp.)
     triangle3D triModified;
 
-    float DepthOffset = 8.0f;
+    float depthOffset = 5.0f;
     vec3D normal;
     float length;
     float dp;
-    float Xoffset = 3.0f;
-    float Yoffset = 3.0f;
+    float Xoffset = 2.0f;
+    float Yoffset = 2.0f;
     float objScale = 0.5f;
     float rotAngle = 1.0f;
 
@@ -49,11 +49,13 @@ public:
 
     void render2Dview();
 
-    // void rotZ(triangle3D &tri, matrix4x4 &MatrixRotZ);
+    triangle3D rot(triangle3D &tri, matrix4x4 &matrixRot);
 
-    // void rotX(triangle3D &tri, matrix4x4 &MatrixRotX);
+    triangle3D transXY(triangle3D &tri);
 
-    // void transXY(triangle3D &tri);
+    triangle3D triScale(triangle3D& triProjected);
+
+    triangle3D transformTriangle3D(const triangle3D& triTranslated, const matrix4x4& projection);
 };
 
 #endif //RENDER_H

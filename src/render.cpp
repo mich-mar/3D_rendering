@@ -26,7 +26,7 @@ triangle3D rot(triangle3D &tri, matrix4x4 &matrixRot) {
 float depth = 8.0f;
 
 triangle3D transXY(triangle3D &tri) {
-    triangle3D triTranslated;
+    triangle3D triTranslated = tri;
 
     triTranslated.p[0].z = tri.p[0].z + depth;
     triTranslated.p[1].z = tri.p[1].z + depth;
@@ -62,11 +62,11 @@ void render::render2Dview() {
 
 
     // Ustalanie kąta rotacji zmieniającego się w czasie (zależnego od ctr)
-    rotAngle += static_cast<float>(ctr) * 0.0001f;
+    rotAngle += static_cast<float>(ctr) * 0.00001f;
 
     // Generowanie macierzy rotacji wzdłuż osi X i Z
     MatrixRotX = genRotationX(rotAngle);
-    MatrixRotZ = genRotationZ(rotAngle);
+    MatrixRotZ = genRotationZ(rotAngle / 2);
 
     vec3D camera;
 
@@ -79,49 +79,23 @@ void render::render2Dview() {
 
         // Rotate in Z-Axis
         triRotatedZ = rot(tri, MatrixRotZ);
-        // MultiplyMatrixVector(tri.p[0], triRotatedZ.p[0], MatrixRotZ);
-        // MultiplyMatrixVector(tri.p[1], triRotatedZ.p[1], MatrixRotZ);
-        // MultiplyMatrixVector(tri.p[2], triRotatedZ.p[2], MatrixRotZ);
 
         // Rotate in X-Axis
         triRotatedZX = rot(triRotatedZ, MatrixRotX);
-        // MultiplyMatrixVector(triRotatedZ.p[0], triRotatedZX.p[0], MatrixRotX);
-        // MultiplyMatrixVector(triRotatedZ.p[1], triRotatedZX.p[1], MatrixRotX);
-        // MultiplyMatrixVector(triRotatedZ.p[2], triRotatedZX.p[2], MatrixRotX);
 
         // Offset into the screen
-        // triTranslated = transXY(triRotatedZX);
-        triTranslated = triRotatedZX;
-        triTranslated.p[0].z = triRotatedZX.p[0].z + 8.0f;
-        triTranslated.p[1].z = triRotatedZX.p[1].z + 8.0f;
-        triTranslated.p[2].z = triRotatedZX.p[2].z + 8.0f;
+        triTranslated = transXY(triRotatedZX);
 
         // Use Cross-Product to get surface normal
-        vec3D normal, line1, line2;
-        line1.x = triTranslated.p[1].x - triTranslated.p[0].x;
-        line1.y = triTranslated.p[1].y - triTranslated.p[0].y;
-        line1.z = triTranslated.p[1].z - triTranslated.p[0].z;
+        // vec3D normal;
 
-        line2.x = triTranslated.p[2].x - triTranslated.p[0].x;
-        line2.y = triTranslated.p[2].y - triTranslated.p[0].y;
-        line2.z = triTranslated.p[2].z - triTranslated.p[0].z;
-
-        normal.x = line1.y * line2.z - line1.z * line2.y;
-        normal.y = line1.z * line2.x - line1.x * line2.z;
-        normal.z = line1.x * line2.y - line1.y * line2.x;
-
-        // It's normally normal to normalise the normal
-        float l = sqrtf(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
-        normal.x /= l;
-        normal.y /= l;
-        normal.z /= l;
+        normal = normalVec(triTranslated);
 
         //if (normal.z < 0)
-        if (normal.x * (triTranslated.p[0].x - camera.x) +
-            normal.y * (triTranslated.p[0].y - camera.y) +
-            normal.z * (triTranslated.p[0].z - camera.z) < 0.0f) {
+        if (dotProduct(normal, triTranslated.p[0]) < 0.0f) {
             // Illumination
             vec3D light_direction = {0.0f, 0.0f, -1.0f};
+
             float ll = sqrtf(
                 light_direction.x * light_direction.x + light_direction.y * light_direction.y + light_direction.z *
                 light_direction.z);
@@ -138,6 +112,14 @@ void render::render2Dview() {
             MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], projection);
             MultiplyMatrixVector(triTranslated.p[1], triProjected.p[1], projection);
             MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], projection);
+            // @todo: nie działa
+            // triTranslated.p[0] = multiplyMatrixByVector(triTranslated.p[0],projection);
+            // triTranslated.p[1] = multiplyMatrixByVector(triTranslated.p[1],projection);
+            // triTranslated.p[2] = multiplyMatrixByVector(triTranslated.p[2],projection);
+            // triTranslated.p[0].normalize();
+            // triTranslated.p[1].normalize();
+            // triTranslated.p[2].normalize();
+
 
             // Scale into view
             triProjected.p[0].x += 1.0f;

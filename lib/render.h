@@ -33,7 +33,7 @@ class render {
     float objScale = 0.5f;
     float rotAngle = 1.0f;
 
-    vec3D cameraPos;
+    vec3D cameraPos = {0.0f, 0.0f, 0.0f};
     vec3D lightSource = {0.0f, 0.0f, -1.0};
 
     SFMLhandler sfml;

@@ -8,7 +8,7 @@ int main() {
     // render render(1000,1000,"-");
 
     while (true) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         render.render2Dview();
     }
 

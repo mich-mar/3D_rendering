@@ -139,6 +139,7 @@ vec3D multiplyMatrixByVector(const vec3D &vector, const matrix4x4 &m) {
     result.y = vector.x * m.m[0][1] + vector.y * m.m[1][1] + vector.z * m.m[2][1] + vector.w * m.m[3][1];
     result.z = vector.x * m.m[0][2] + vector.y * m.m[1][2] + vector.z * m.m[2][2] + vector.w * m.m[3][2];
     result.w = vector.x * m.m[0][3] + vector.y * m.m[1][3] + vector.z * m.m[2][3] + vector.w * m.m[3][3];
+
     // float w = vector.x * m.m[0][3] + vector.y * m.m[1][3] + vector.z * m.m[2][3] + m.m[3][3];
     //
     // if (w != 0.0f) {

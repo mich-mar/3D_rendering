@@ -24,14 +24,14 @@ class render {
     // Deklaracja różnych wersji trójkąta (przekształconego, zrotowanego, przesuniętego itp.)
     triangle3D triModified;
 
-    float depthOffset = 5.0f;
+    float depthOffset = 200.0f;
     vec3D normal;
     float length;
     float dp;
     float Xoffset = 2.0f;
     float Yoffset = 2.0f;
-    float objScale = 0.5f;
-    float rotAngle = 1.0f;
+    float objScale = 3.0f;
+    float rotAngle = 10.0f;
 
     vec3D cameraPos = {0.0f, 0.0f, 0.0f};
     vec3D lightSource = {0.0f, 0.0f, -1.0};
@@ -39,7 +39,7 @@ class render {
     SFMLhandler sfml;
 
     float fNear = 0.1f;
-    float fFar = 1000.0f;
+    float fFar = 100.0f;
     float fFov = 90.0f;
     float fAspectRatio;
     float fFovRad;

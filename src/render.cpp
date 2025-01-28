@@ -89,7 +89,7 @@ void render::render2Dview() {
 
 
     // Ustalanie kąta rotacji zmieniającego się w czasie (zależnego od ctr)
-    rotAngle += static_cast<float>(ctr) * 0.00001f;
+    rotAngle += static_cast<float>(ctr) * 0.0001f;
 
     // Generowanie macierzy rotacji wzdłuż osi X i Z
     MatrixRotX = genRotationX(rotAngle);

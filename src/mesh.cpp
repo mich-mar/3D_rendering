@@ -26,7 +26,8 @@ bool mesh::loadObj(const std::string &filename) {
     }
 
     std::vector<vec3D> vertices; // Lista wierzchołków
-    std::vector<vec3D> normals; // Lista wektorów normalnych
+    std::vector<vec3D> normals;  // Lista wektorów normalnych
+    std::vector<vec3D> texCoords; // Lista współrzędnych tekstur
     std::string line;
 
     triangles.clear(); // Wyczyszczenie listy trójkątów
@@ -46,30 +47,54 @@ bool mesh::loadObj(const std::string &filename) {
             vec3D normal;
             iss >> normal.x >> normal.y >> normal.z;
             normals.push_back(normal);
+        } else if (prefix == "vt") {
+            // Wczytanie współrzędnych tekstury
+            vec3D texCoord;
+            iss >> texCoord.x >> texCoord.y;
+            texCoord.z = 0.0f; // Zakładamy, że współrzędne tekstury są 2D
+            texCoords.push_back(texCoord);
         } else if (prefix == "f") {
             // Wczytanie trójkąta
             int vertexIndices[3]; // Indeksy wierzchołków
             int normalIndices[3]; // Indeksy normalnych
+            int texCoordIndices[3]; // Indeksy współrzędnych tekstur
             char slash;
 
-            // Parsowanie linii `f` w formacie `1//1 2//2 3//3`
+            // Parsowanie linii `f` w formacie `1/1/1 2/2/2 3/3/3`
             for (int i = 0; i < 3; ++i) {
-                iss >> vertexIndices[i] >> slash >> slash >> normalIndices[i];
+                std::string vertexDef;
+                iss >> vertexDef;
+
+                size_t firstSlash = vertexDef.find('/');
+                size_t secondSlash = vertexDef.find('/', firstSlash + 1);
+
+                vertexIndices[i] = std::stoi(vertexDef.substr(0, firstSlash));
+
+                if (firstSlash != std::string::npos && secondSlash != std::string::npos) {
+                    texCoordIndices[i] = std::stoi(vertexDef.substr(firstSlash + 1, secondSlash - firstSlash - 1));
+                    normalIndices[i] = std::stoi(vertexDef.substr(secondSlash + 1));
+                } else if (firstSlash != std::string::npos) {
+                    texCoordIndices[i] = std::stoi(vertexDef.substr(firstSlash + 1));
+                }
             }
 
             // Walidacja indeksów
             for (int i = 0; i < 3; ++i) {
                 if (vertexIndices[i] <= 0 || vertexIndices[i] > vertices.size()) {
                     std::cerr << "Error: Vertex index out of range in file " << filename << std::endl;
-                    // return false;
-                 }
-                if (normalIndices[i] <= 0 || normalIndices[i] > normals.size()) {
+                    return false;
+                }
+                if (texCoordIndices[i] > 0 && texCoordIndices[i] > texCoords.size()) {
+                    std::cerr << "Error: Texture coordinate index out of range in file " << filename << std::endl;
+                    return false;
+                }
+                if (normalIndices[i] > 0 && normalIndices[i] > normals.size()) {
                     std::cerr << "Error: Normal index out of range in file " << filename << std::endl;
-                    // return false;
+                    return false;
                 }
             }
 
-            // Tworzenie trójkąta z wierzchołków (ignorujemy normalne w tej wersji)
+            // Tworzenie trójkąta z wierzchołków (ignorujemy normalne i tekstury w tej wersji)
             triangle3D tri = {
                 vertices[vertexIndices[0] - 1],
                 vertices[vertexIndices[1] - 1],

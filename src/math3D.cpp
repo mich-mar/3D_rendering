@@ -4,7 +4,6 @@
 
 #include "math3D.h"
 
-
 vec3D normalVec(const vec3D &vec1, const vec3D &vec2) {
     vec3D result;
 
@@ -117,6 +116,19 @@ matrix4x4 genProjectionMatrix(float fNear, float fFar, float fAspectRatio, float
     return matProj;
 }
 
+matrix4x4 genTranslationMatrix(float x, float y, float z)
+{
+    matrix4x4 matrix;
+    matrix.m[0][0] = 1.0f;
+    matrix.m[1][1] = 1.0f;
+    matrix.m[2][2] = 1.0f;
+    matrix.m[3][3] = 1.0f;
+    matrix.m[3][0] = x;
+    matrix.m[3][1] = y;
+    matrix.m[3][2] = z;
+    return matrix;
+}
+
 /**
  * @brief Multiplies a 3D vector by a 4x4 matrix, applying projection and perspective divide.
  * @param vector The vec3 vector to be multiplied.
@@ -131,13 +143,6 @@ vec3D multiplyMatrixByVector(const vec3D &vector, const matrix4x4 &m) {
     result.z = vector.x * m.m[0][2] + vector.y * m.m[1][2] + vector.z * m.m[2][2] + vector.w * m.m[3][2];
     result.w = vector.x * m.m[0][3] + vector.y * m.m[1][3] + vector.z * m.m[2][3] + vector.w * m.m[3][3];
 
-    // float w = vector.x * m.m[0][3] + vector.y * m.m[1][3] + vector.z * m.m[2][3] + m.m[3][3];
-    //
-    // if (w != 0.0f) {
-    //     result.x = vector.x / w;
-    //     result.y = vector.y / w;
-    //     result.z = vector.z / w;
-    // }
     return result;
 }
 

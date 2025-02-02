@@ -24,6 +24,6 @@ vec3D multiplyMatrixByVector(const vec3D &vector, const matrix4x4 &matrix);
 
 matrix4x4 genProjectionMatrix(float fNear, float fFar, float aspectRatio, float fFovRad);
 
-
+matrix4x4 genTranslationMatrix(float x, float y, float z);
 
 #endif //MATH3D_H

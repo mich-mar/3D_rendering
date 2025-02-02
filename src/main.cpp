@@ -4,11 +4,14 @@
 #include <thread>
 
 int main() {
-    render render(2000,2000,"Seahawk.obj");
+    render render(1000,1000,"Seahawk.obj");
     // render render(1000,1000,"-");
+    render.setOffsets(1.0f,1.0f,200.0f);
+    render.setParam(0.1f,1000.0f,90.0f);
+    render.setScale(0.9f);
 
     while (true) {
-        // std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
         render.render2Dview();
     }
 

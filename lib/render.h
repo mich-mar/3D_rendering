@@ -47,15 +47,21 @@ class render {
 public:
     render(float windowHeight, float windowWidth, const std::string &filename);
 
+    void setParam(float fNear, float fFar, float fFov);
+
+    void setOffsets(float Xoffset, float Yoffset, float depthOffset);
+
+    void setScale(float objScale);
+
     void render2Dview();
 
     triangle3D rot(triangle3D &tri, matrix4x4 &matrixRot);
 
     triangle3D transXY(triangle3D &tri);
 
-    triangle3D triScale(triangle3D& triProjected);
+    triangle3D triScale(triangle3D &triProjected);
 
-    triangle3D transformTriangle3D(const triangle3D& triTranslated, const matrix4x4& projection);
+    triangle3D transformTriangle3D(const triangle3D &triTranslated, const matrix4x4 &projection);
 };
 
 #endif //RENDER_H

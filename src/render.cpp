@@ -53,6 +53,22 @@ triangle3D render::transformTriangle3D(const triangle3D& triTranslated, const ma
     return triProjected;
 }
 
+void render::setParam(float fNear, float fFar, float fFov) {
+    this->fFar = fFar;
+    this->fNear = fNear;
+    this->fFov = fFov;
+}
+
+void render::setOffsets(float Xoffset, float Yoffset, float depthOffset) {
+    this->Xoffset = Xoffset;
+    this->Yoffset = Yoffset;
+    this->depthOffset = depthOffset;
+}
+
+void render::setScale(float objScale) {
+    this->objScale = objScale;
+}
+
 
 
 // Przeciążony konstruktor klasy render z argumentami dla szerokości i wysokości okna
@@ -89,11 +105,15 @@ void render::render2Dview() {
 
 
     // Ustalanie kąta rotacji zmieniającego się w czasie (zależnego od ctr)
-    rotAngle += static_cast<float>(ctr) * 0.0001f;
+    rotAngle += 0.01f;
 
     // Generowanie macierzy rotacji wzdłuż osi X i Z
+    // MatrixRotX = genRotationX(rotAngle);
+    // MatrixRotZ = genRotationZ(rotAngle / 2);
+
     MatrixRotX = genRotationX(rotAngle);
-    MatrixRotZ = genRotationZ(rotAngle / 2);
+    MatrixRotZ = genRotationZ(rotAngle);
+    matrix4x4 matrixTrans = genTranslationMatrix(0,0,0);
 
     std::vector<triangle3D> vecTrianglesToRaster;
 
@@ -107,6 +127,8 @@ void render::render2Dview() {
 
         // Rotate in X-Axis
         triRotatedZX = rot(triRotatedZ, MatrixRotX);
+
+        // triRotatedZX = rot(triRotatedZX, matrixTrans);
 
         // Offset into the screen
         triTranslated = transXY(triRotatedZX);
@@ -161,4 +183,6 @@ void render::render2Dview() {
 
     // Licznik czasu / klatek
     ctr++;
+
+    std::cout << "prnit: " << ctr << std::endl;
 }

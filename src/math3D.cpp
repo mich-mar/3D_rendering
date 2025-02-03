@@ -77,6 +77,8 @@ matrix4x4 genRotationY(const float angleRad) {
     result.m[0][2] = sinA;
     result.m[2][0] = -sinA;
     result.m[2][2] = cosA;
+    result.m[1][1] = 1;
+    result.m[3][3] = 1;
 
     return result;
 }

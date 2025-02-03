@@ -18,7 +18,7 @@ struct SFMLhandler {
     sf::Clock clock;
 
 public:
-    SFMLhandler(float width, float height, const std::string &title);
+    SFMLhandler(float width, float height, std::string title);
 
     void drawTriangle(point2D p1, point2D p2, point2D p3, const RGB &color, float thickness);
 

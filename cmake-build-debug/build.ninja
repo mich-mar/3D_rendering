@@ -84,6 +84,13 @@ build CMakeFiles/3D_rendering.dir/src/mesh.cpp.o: CXX_COMPILER__3D_rendering_uns
   OBJECT_DIR = CMakeFiles/3D_rendering.dir
   OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
 
+build CMakeFiles/3D_rendering.dir/src/readUART.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/readUART.cpp || cmake_object_order_depends_target_3D_rendering
+  DEP_FILE = CMakeFiles/3D_rendering.dir/src/readUART.cpp.o.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
+  INCLUDES = -I/home/michal/Documents/Programowanie/3D_rendering/lib -I/home/michal/Documents/Programowanie/3D_rendering/obj
+  OBJECT_DIR = CMakeFiles/3D_rendering.dir
+  OBJECT_FILE_DIR = CMakeFiles/3D_rendering.dir/src
+
 build CMakeFiles/3D_rendering.dir/src/render.cpp.o: CXX_COMPILER__3D_rendering_unscanned_Debug /home/michal/Documents/Programowanie/3D_rendering/src/render.cpp || cmake_object_order_depends_target_3D_rendering
   DEP_FILE = CMakeFiles/3D_rendering.dir/src/render.cpp.o.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -Wunused-variable -Wunused-function -g
@@ -113,7 +120,7 @@ build CMakeFiles/3D_rendering.dir/src/vec3D.cpp.o: CXX_COMPILER__3D_rendering_un
 #############################################
 # Link the executable 3D_rendering
 
-build 3D_rendering: CXX_EXECUTABLE_LINKER__3D_rendering_Debug CMakeFiles/3D_rendering.dir/src/SFMLhandler.cpp.o CMakeFiles/3D_rendering.dir/src/main.cpp.o CMakeFiles/3D_rendering.dir/src/math3D.cpp.o CMakeFiles/3D_rendering.dir/src/matrix4x4.cpp.o CMakeFiles/3D_rendering.dir/src/mesh.cpp.o CMakeFiles/3D_rendering.dir/src/render.cpp.o CMakeFiles/3D_rendering.dir/src/triangle3D.cpp.o CMakeFiles/3D_rendering.dir/src/vec3D.cpp.o | /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
+build 3D_rendering: CXX_EXECUTABLE_LINKER__3D_rendering_Debug CMakeFiles/3D_rendering.dir/src/SFMLhandler.cpp.o CMakeFiles/3D_rendering.dir/src/main.cpp.o CMakeFiles/3D_rendering.dir/src/math3D.cpp.o CMakeFiles/3D_rendering.dir/src/matrix4x4.cpp.o CMakeFiles/3D_rendering.dir/src/mesh.cpp.o CMakeFiles/3D_rendering.dir/src/readUART.cpp.o CMakeFiles/3D_rendering.dir/src/render.cpp.o CMakeFiles/3D_rendering.dir/src/triangle3D.cpp.o CMakeFiles/3D_rendering.dir/src/vec3D.cpp.o | /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1 /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
   FLAGS = -g
   LINK_LIBRARIES = /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1  /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
   OBJECT_DIR = CMakeFiles/3D_rendering.dir

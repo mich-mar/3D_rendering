@@ -18,7 +18,7 @@ class render {
     int ctr = 0;
 
     // Deklaracja macierzy rotacji
-    matrix4x4 MatrixRotX, MatrixRotZ;
+    matrix4x4 MatrixRotX, MatrixRotZ, MatrixRotY;
     std::vector<triangle3D> trianglesToRaster;
 
     // Deklaracja różnych wersji trójkąta (przekształconego, zrotowanego, przesuniętego itp.)
@@ -47,13 +47,15 @@ class render {
 public:
     render(float windowHeight, float windowWidth, const std::string &filename);
 
+    render(float windowHeight, float windowWidth, sf::RenderWindow window);
+
     void setParam(float fNear, float fFar, float fFov);
 
     void setOffsets(float Xoffset, float Yoffset, float depthOffset);
 
     void setScale(float objScale);
 
-    void render2Dview();
+    void render2Dview(float angX, float angY, float angZ);
 
     triangle3D rot(triangle3D &tri, matrix4x4 &matrixRot);
 

@@ -1,9 +1,12 @@
 #include "SFMLhandler.h"
 
 // Constructor
-SFMLhandler::SFMLhandler(float width, float height, const std::string &title)
+SFMLhandler::SFMLhandler(float width, float height, std::string title)
     : windowHeight(height), windowWidth(width), window(sf::VideoMode(width, height), title) {
 }
+
+
+
 
 // Clears the screen with a specified background color
 void SFMLhandler::clearScreen(const RGB &backgroundColor) {
@@ -33,7 +36,8 @@ bool SFMLhandler::handleEvents() {
 }
 
 // Helper function to create a line with thickness
-sf::ConvexShape SFMLhandler::createThickLine (float x1, float y1, float x2, float y2, float thickness, const sf::Color &sfColor) {
+sf::ConvexShape SFMLhandler::createThickLine(float x1, float y1, float x2, float y2, float thickness,
+                                             const sf::Color &sfColor) {
     sf::Vector2f direction(x2 - x1, y2 - y1);
     float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
     direction /= length;
@@ -100,6 +104,6 @@ RGB generateRGB(float illumination) {
     if (illumination > 1.0f) illumination = 1.0f;
 
     // Calculate the intensity based on illumination
-    int intensity = static_cast<int>(illumination * 255)/2 + 127;
+    int intensity = static_cast<int>(illumination * 255) / 2 + 127;
     return {intensity, intensity, intensity};
 }

@@ -39,7 +39,7 @@ triangle3D render::triScale(triangle3D &tri) {
     return triProjected;
 }
 
-triangle3D render::transformTriangle3D(const triangle3D& triTranslated, const matrix4x4& projection) {
+triangle3D render::transformTriangle3D(const triangle3D &triTranslated, const matrix4x4 &projection) {
     triangle3D triProjected = triTranslated;
 
     // Przemnożenie każdego wierzchołka przez macierz projekcji
@@ -70,14 +70,13 @@ void render::setScale(float objScale) {
 }
 
 
-
 // Przeciążony konstruktor klasy render z argumentami dla szerokości i wysokości okna
-render::render(float windowHeight, float windowWidth, const std::string &filename) : sfml(
-    windowWidth, windowHeight, "3D rendering") {
-    // Generowanie siatki sześcianu
+render::render(float windowHeight, float windowWidth, const std::string &filename)
+    : sfml(windowHeight, windowWidth, "3D Render") {
+    bool result = false;
 
     if (filename != "-") {
-        meshObject.loadObj(filename);
+        result = meshObject.loadObj(filename);
     } else {
         meshObject.generateCube();
         Xoffset = 1.0f;
@@ -86,15 +85,20 @@ render::render(float windowHeight, float windowWidth, const std::string &filenam
         depthOffset = 3.0f;
     }
 
-    // Obliczanie stosunku szerokości do wysokości okna
-    fAspectRatio = static_cast<float>(windowHeight) / windowWidth;
+    if (!result) {
+        exit(EXIT_FAILURE);
+    }
+
+        // Obliczanie stosunku szerokości do wysokości okna
+        fAspectRatio = static_cast<float>(windowHeight) / windowWidth;
 
     // Obliczanie współczynnika FOV (Field of View) w radianach
     fFovRad = 1.0f / tanf(fFov * 0.5f / 180.0f * 3.14159f);
 }
 
+
 // Funkcja renderująca widok 2D
-void render::render2Dview() {
+void render::render2Dview(float angX, float angY, float angZ) {
     trianglesToRaster.clear();
 
     // Czyszczenie ekranu i ustawienie koloru tła na szary
@@ -103,24 +107,22 @@ void render::render2Dview() {
     // Generowanie macierzy projekcji
     projection = genProjectionMatrix(fNear, fFar, fAspectRatio, fFovRad);
 
-
     // Ustalanie kąta rotacji zmieniającego się w czasie (zależnego od ctr)
-    rotAngle += 0.01f;
+    // rotAngle += 0.01f;
 
     // Generowanie macierzy rotacji wzdłuż osi X i Z
-    // MatrixRotX = genRotationX(rotAngle);
-    // MatrixRotZ = genRotationZ(rotAngle / 2);
+    MatrixRotX = genRotationX(angX);
+    MatrixRotY = genRotationY(angY);
+    MatrixRotZ = genRotationZ(angZ);
 
-    MatrixRotX = genRotationX(rotAngle);
-    MatrixRotZ = genRotationZ(rotAngle);
-    matrix4x4 matrixTrans = genTranslationMatrix(0,0,0);
+    matrix4x4 matrixTrans = genTranslationMatrix(0, 0, 0);
 
     std::vector<triangle3D> vecTrianglesToRaster;
 
 
     // Iteracja przez wszystkie trójkąty w siatce sześcianu
     for (auto tri: meshObject.triangles) {
-        triangle3D triProjected, triTranslated, triRotatedZ, triRotatedZX;
+        triangle3D triProjected, triTranslated, triRotatedZ, triRotatedZX, triRotatedZXY;
 
         // Rotate in Z-Axis
         triRotatedZ = rot(tri, MatrixRotZ);
@@ -128,10 +130,11 @@ void render::render2Dview() {
         // Rotate in X-Axis
         triRotatedZX = rot(triRotatedZ, MatrixRotX);
 
-        // triRotatedZX = rot(triRotatedZX, matrixTrans);
+        // Rotate in Y-Axis
+        triRotatedZXY = rot(triRotatedZX, MatrixRotY);
 
         // Offset into the screen
-        triTranslated = transXY(triRotatedZX);
+        triTranslated = transXY(triRotatedZXY);
 
         // Use Cross-Product to get surface normal
         normal = normalVec(triTranslated);
@@ -184,5 +187,5 @@ void render::render2Dview() {
     // Licznik czasu / klatek
     ctr++;
 
-    std::cout << "prnit: " << ctr << std::endl;
+    // std::cout << "prnit: " << ctr << std::endl;
 }

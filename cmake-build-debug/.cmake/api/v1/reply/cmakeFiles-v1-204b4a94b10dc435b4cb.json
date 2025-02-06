@@ -127,22 +127,25 @@
 			"path" : "/snap/clion/314/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake"
 		},
 		{
-			"path" : "obj/ChessKing.obj"
+			"path" : "manipulator_obj/Arm 1.obj"
 		},
 		{
-			"path" : "obj/Seahawk.obj"
+			"path" : "manipulator_obj/Arm 2.obj"
 		},
 		{
-			"path" : "obj/VideoShip.obj"
+			"path" : "manipulator_obj/Arm 3.obj"
 		},
 		{
-			"path" : "obj/robot.obj"
+			"path" : "manipulator_obj/Base.obj"
 		},
 		{
-			"path" : "obj/teapot.obj"
+			"path" : "manipulator_obj/Elbow.obj"
 		},
 		{
-			"path" : "obj/trex.obj"
+			"path" : "manipulator_obj/Shoulder.obj"
+		},
+		{
+			"path" : "manipulator_obj/Wrist.obj"
 		},
 		{
 			"isExternal" : true,

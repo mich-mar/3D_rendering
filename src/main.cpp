@@ -11,7 +11,7 @@
 inputData input;
 std::mutex inputMutex;  // Mutex dla dostępu do zmiennej input
 
-const float maxInputValue = 1024.0f;
+const float maxInputValue = 1000.0f;
 const float twoPi = 2.0f * M_PI;  // Pełny obrót w radianach
 const float changeThreshold = 0.5f;  // Próg tolerancji, poniżej którego ignorujemy zmiany
 
@@ -75,7 +75,7 @@ void uartLoop(int uartFD) {
                 std::lock_guard<std::mutex> lock(inputMutex);  // Blokuj dostęp do input
                 input = newInput;  // Aktualizuj dane wejściowe
             }  // Mutex zostanie automatycznie odblokowany po zakończeniu tego zakresu
-            std::cout << "Otrzymano: " << input.x << ", " << input.y << ", " << input.z << std::endl;
+            // std::cout << "Otrzymano: " << input.x << ", " << input.y << ", " << input.z << std::endl;
         }
     }
 }

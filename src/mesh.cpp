@@ -105,6 +105,8 @@ bool mesh::loadObj(const std::string &filename) {
     }
 
     file.close();
+
+    std::cout << "Loading OBJ file sucessful" << std::endl;
     return true;
 }
 

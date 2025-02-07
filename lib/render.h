@@ -64,6 +64,11 @@ public:
     triangle3D triScale(triangle3D &triProjected);
 
     triangle3D transformTriangle3D(const triangle3D &triTranslated, const matrix4x4 &projection);
+
+    // todo: check if it works
+    render(render&& other) noexcept = default;
+    render& operator=(render&& other) noexcept = default;
+
 };
 
 #endif //RENDER_H

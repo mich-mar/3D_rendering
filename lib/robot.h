@@ -2,21 +2,22 @@
 #define ROBOT_H
 
 #include "render.h"
-
-std::vector<std::string> files = {
-    "Arm 1.obj", "Arm 2.obj", "Arm 3.obj", "Base.obj",
-    "Elbow.obj", "Shoulder.obj", "Wrist.obj"
-};
+#include <thread>
+#include <chrono>
 
 class robot {
     int screenWidth = 1500, screenHeight = 1500;
 
-    std::vector<render> parts;
+    mesh arm_1, arm_2, arm_3, base, elbow, shoulder, wrist;
 
-    public:
-      robot();
+    render renderRobot;
+
+    SFMLhandler sfml;
+
+public:
+    robot();
+    void run();
 };
-
 
 
 #endif //ROBOT_H

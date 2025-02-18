@@ -35,6 +35,8 @@ public:
     bool handleEvents();
 
     sf::Int32 getElapsedTime();
+
+    void renderTriangles(std::vector<triangle3D>& triangles);
 };
 
 RGB generateRGB(float illumination);

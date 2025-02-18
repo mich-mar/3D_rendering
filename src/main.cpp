@@ -7,6 +7,7 @@
 #include <mutex>
 #include <cmath>  // Do obliczeń matematycznych (np. M_PI)
 #include <X11/Xlib.h>
+#include "robot.h"
 
 inputData input;
 std::mutex inputMutex; // Mutex dla dostępu do zmiennej input
@@ -91,6 +92,9 @@ bool isChangeSignificant(float newVal, float oldVal) {
 // }
 
 int main() {
+    robot robot;
+
+    robot.run();
 
     // std::thread renderThread (renderLoop, 0);
     // std::thread uartThread(uartLoop, 1);

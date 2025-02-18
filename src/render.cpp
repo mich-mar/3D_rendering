@@ -98,11 +98,11 @@ render::render(float windowHeight, float windowWidth, const std::string &filenam
 
 
 // Funkcja renderująca widok 2D
-void render::render2Dview(float angX, float angY, float angZ) {
+std::vector<triangle3D> render::render2Dview(float angX, float angY, float angZ, mesh& meshObject) {
     trianglesToRaster.clear();
 
     // Czyszczenie ekranu i ustawienie koloru tła na szary
-    sfml.clearScreen({0, 0, 0});
+    // sfml.clearScreen({0, 0, 0});
 
     // Generowanie macierzy projekcji
     projection = genProjectionMatrix(fNear, fFar, fAspectRatio, fFovRad);
@@ -169,23 +169,32 @@ void render::render2Dview(float angX, float angY, float angZ) {
         return z1 > z2;
     });
 
-    for (auto &triProjected: vecTrianglesToRaster) {
-        point2D p1 = {triProjected.p[0].x, triProjected.p[0].y};
-        point2D p2 = {triProjected.p[1].x, triProjected.p[1].y};
-        point2D p3 = {triProjected.p[2].x, triProjected.p[2].y};
+    //
+    // for (auto &triProjected: vecTrianglesToRaster) {
+    //     point2D p1 = {triProjected.p[0].x, triProjected.p[0].y};
+    //     point2D p2 = {triProjected.p[1].x, triProjected.p[1].y};
+    //     point2D p3 = {triProjected.p[2].x, triProjected.p[2].y};
+    //
+    //     // Rasterize triangle
+    //     sfml.fillTriangle(p1, p2, p3, triProjected.color);
+    // }
+    //
+    // // Obsługa zdarzeń SFML
+    // sfml.handleEvents();
+    //
+    // // Aktualizacja ekranu po renderowaniu
+    // sfml.updateScreen();
 
-        // Rasterize triangle
-        sfml.fillTriangle(p1, p2, p3, triProjected.color);
-    }
+    // sfml.renderTriangles(trianglesToRaster);
 
-    // Obsługa zdarzeń SFML
-    sfml.handleEvents();
-
-    // Aktualizacja ekranu po renderowaniu
-    sfml.updateScreen();
+    return vecTrianglesToRaster;
 
     // Licznik czasu / klatek
     ctr++;
 
     // std::cout << "prnit: " << ctr << std::endl;
+}
+
+void render::render2Dview(float angX, float angY, float angZ) {
+    render2Dview(angX, angY, angZ, this->meshObject);
 }

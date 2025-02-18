@@ -45,15 +45,16 @@ class render {
     float fFovRad;
 
 public:
-    render(float windowHeight, float windowWidth, const std::string &filename);
 
-    render(float windowHeight, float windowWidth, sf::RenderWindow window);
+    render(float windowHeight, float windowWidth, const std::string &filename);
 
     void setParam(float fNear, float fFar, float fFov);
 
     void setOffsets(float Xoffset, float Yoffset, float depthOffset);
 
     void setScale(float objScale);
+
+    std::vector<triangle3D> render2Dview(float angX, float angY, float angZ, mesh& meshObject);
 
     void render2Dview(float angX, float angY, float angZ);
 

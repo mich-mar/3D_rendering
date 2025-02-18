@@ -107,3 +107,22 @@ RGB generateRGB(float illumination) {
     int intensity = static_cast<int>(illumination * 255) / 2 + 127;
     return {intensity, intensity, intensity};
 }
+
+void SFMLhandler::renderTriangles(std::vector<triangle3D> &triangles) {
+    clearScreen({0,0,0});
+
+    for (auto &triProjected: triangles) {
+        point2D p1 = {triProjected.p[0].x, triProjected.p[0].y};
+        point2D p2 = {triProjected.p[1].x, triProjected.p[1].y};
+        point2D p3 = {triProjected.p[2].x, triProjected.p[2].y};
+
+        // Rasterize triangle
+        fillTriangle(p1, p2, p3, triProjected.color);
+    }
+
+    // Obsługa zdarzeń SFML
+    handleEvents();
+
+    // Aktualizacja ekranu po renderowaniu
+    updateScreen();
+}

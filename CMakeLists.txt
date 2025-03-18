@@ -30,6 +30,7 @@ include_directories(obj/)
 # Zbieranie wszystkich plików .obj z katalogu obj/
 file(GLOB_RECURSE OBJ_FILES obj/*.obj)
 file(GLOB_RECURSE OBJ_FILES manipulator_obj/*.obj)
+file(GLOB_RECURSE OBJ_FILES robot_arm_obj/*.obj)
 
 # Kopiowanie plików .obj do katalogu binarnego
 foreach(OBJ_FILE ${OBJ_FILES})

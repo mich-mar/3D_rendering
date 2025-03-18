@@ -25,7 +25,7 @@ bool isChangeSignificant(float newVal, float oldVal) {
 }
 
 // void renderLoop(int ID) {
-//     inputData tempInput;
+//     inputData tempInput;9
 //
 //     render render(1500, 1500, files.at(0));
 //     render.setOffsets(1.0f, 1.0f, 20.0f);

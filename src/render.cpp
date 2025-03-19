@@ -169,7 +169,6 @@ std::vector<triangle3D> render::render2Dview(float angX, float angY, float angZ,
         return z1 > z2;
     });
 
-    //
     // for (auto &triProjected: vecTrianglesToRaster) {
     //     point2D p1 = {triProjected.p[0].x, triProjected.p[0].y};
     //     point2D p2 = {triProjected.p[1].x, triProjected.p[1].y};
@@ -188,11 +187,6 @@ std::vector<triangle3D> render::render2Dview(float angX, float angY, float angZ,
     // sfml.renderTriangles(trianglesToRaster);
 
     return vecTrianglesToRaster;
-
-    // Licznik czasu / klatek
-    ctr++;
-
-    // std::cout << "prnit: " << ctr << std::endl;
 }
 
 void render::render2Dview(float angX, float angY, float angZ) {

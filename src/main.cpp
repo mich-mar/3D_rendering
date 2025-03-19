@@ -5,7 +5,7 @@
 #include <thread>
 #include "readUART.h"
 #include <mutex>
-#include <cmath>  // Do obliczeń matematycznych (np. M_PI)
+#include <cmath>
 #include <X11/Xlib.h>
 #include "robot.h"
 

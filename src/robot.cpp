@@ -22,7 +22,7 @@ robot::robot() : renderRobot(1500, 1500, "Arm 1.obj"), sfml(1500, 1500, "robot")
 void robot::run() {
     int a = 0;
 
-    renderRobot.setOffsets(1.5, 1.5, 150);
+    renderRobot.setOffsets(1.5, 1.5, 100);
     renderRobot.setParam(0.1, 100, 90);
 
     renderRobot.setScale(1);
@@ -65,8 +65,8 @@ void robot::run() {
 
         sfml.renderTriangles(triangles);
 
-        // angleX += 0.001;
-        // angleZ += 0.001;
+        angleX += 0.001;
+        angleZ += 0.001;
         // angleY_temp += 0.1;
     }
 }
